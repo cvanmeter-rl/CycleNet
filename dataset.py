@@ -38,5 +38,9 @@ class TrainDataset(Dataset):
         return len(self.data)
 
     
-        
+
+if __name__ == "__main__":
+    ds = TrainDataset()
+    print(len(ds))
+    print(ds.data[:5])
                 
