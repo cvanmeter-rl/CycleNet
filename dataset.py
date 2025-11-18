@@ -34,8 +34,8 @@ class TrainDataset(Dataset):
                 img_filepath = self.data_dir / d / 'opt' / f'{image_name}.tif'
                 self.data.append(img_filepath)
 
-        def __len__(self):
-            return len(self.data)
+    def __len__(self):
+        return len(self.data)
 
     
 
