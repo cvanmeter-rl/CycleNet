@@ -45,7 +45,9 @@ class TrainDataset(Dataset):
         #normalize to -1,1
         image = (image.astype(np.float32) / 127.5) - 1.0
 
-        return image
+        source = 'synthetic satellite map render, flat colors, minimal texture, clean computer-generated style, no haze, no noise, no shadows'
+        target = 'realistic highl-resolution satellite image, natural colors, rich textures, realistic lighting, sensor noise, atmospheric haze, soft shadows'
+        return dict(jpg=image, source=source, target=target)
         
 
 if __name__ == "__main__":
