@@ -1,4 +1,4 @@
-import cv2
+from PIL import Image
 import numpy as np
 from torch.utils.data import Dataset
 from pathlib import Path
@@ -41,11 +41,15 @@ class TrainDataset(Dataset):
 
     def __getitem__(self,idx):
         item = self.data[idx]
+        path = str(item['image'])
 
-        image = cv2.imread(item['image'])
-        image = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
+        with Image.open(path) as im:
+            im = im.convert("RGB")
+            image = np.array(im)
         #normalize to -1,1
         image = (image.astype(np.float32) / 127.5) - 1.0
+        #HWC -> CHW
+        image = torch.from_numpy(image).permute(2,0,1)
 
         return dict(jpg=image, source=item['source'], txt=item['target'])
         
