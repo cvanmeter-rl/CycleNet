@@ -7,7 +7,7 @@ from cycleNet.logger import ImageLogger
 from cycleNet.model import create_model, load_state_dict
 
 # Configs
-resume_path = './models/cycle_sd21_single_prompt.ckpt'
+resume_path = './models/cycle_sd21_single_simple_prompt_frozenSD_allControl.ckpt'
 log_path = './logs'
 batch_size_per_gpu = 1
 gpus = 1
