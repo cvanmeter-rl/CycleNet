@@ -7,8 +7,8 @@ class TrainDataset(Dataset):
     def __init__(self):
         self.data = []
         self.data_dir = Path('/mnt/synrs3d/SynRS3D/data/')
-        source = 'synthetic satellite map render, flat colors, minimal texture, clean computer-generated style, no haze, no noise, no shadows'
-        target = 'realistic highl-resolution satellite image, natural colors, rich textures, realistic lighting, sensor noise, atmospheric haze, soft shadows'
+        self.source = 'synthetic satellite map render, flat colors, minimal texture, clean computer-generated style, no haze, no noise, no shadows'
+        self.target = 'realistic highl-resolution satellite image, natural colors, rich textures, realistic lighting, sensor noise, atmospheric haze, soft shadows'
         self.synthetic_dataset_names = [
         "terrain_g05_mid_v1",
         "grid_g05_mid_v2",
