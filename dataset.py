@@ -34,7 +34,7 @@ class TrainDataset(Dataset):
                 image_list = [ln.strip() for ln in f if ln.strip()]
             for image_name in image_list:
                 img_filepath = self.data_dir / d / 'opt' / f'{image_name}.tif'
-                self.data.append({'image':img_filepath, source: self.source, target: self.target})
+                self.data.append({'image':img_filepath, 'source': self.source, 'target': self.target})
 
     def __len__(self):
         return len(self.data)
