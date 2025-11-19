@@ -47,7 +47,7 @@ class TrainDataset(Dataset):
         #normalize to -1,1
         image = (image.astype(np.float32) / 127.5) - 1.0
 
-        return dict(jpg=image, source=source, target=target)
+        return dict(jpg=image, source=item['source'], txt=item['target'])
         
 
 if __name__ == "__main__":
