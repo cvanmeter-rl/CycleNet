@@ -35,7 +35,11 @@ class TrainDataset(Dataset):
                 image_list = [ln.strip() for ln in f if ln.strip()]
             for image_name in image_list:
                 img_filepath = self.data_dir / d / 'opt' / f'{image_name}.tif'
-                self.data.append({'image':img_filepath, 'source': self.source, 'target': self.target})
+                if Path(img_filepath).exists():
+                    self.data.append({'image':img_filepath, 'source': self.source, 'target': self.target})
+                else:
+                    missing += 1
+        print(f"[INFO] Loaded {len(self.data)} images, skipped {missing} missing files.")
 
     def __len__(self):
         return len(self.data)
