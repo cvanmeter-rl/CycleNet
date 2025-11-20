@@ -50,7 +50,7 @@ class TrainDataset(Dataset):
         #normalize to -1,1
         image = (image.astype(np.float32) / 127.5) - 1.0
         #HWC -> CHW
-        image = torch.from_numpy(image).permute(2,0,1)
+        #image = torch.from_numpy(image).permute(2,0,1)
 
         return dict(jpg=image, source=item['source'], txt=item['target'])
         
