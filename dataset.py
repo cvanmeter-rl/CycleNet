@@ -29,6 +29,7 @@ class TrainDataset(Dataset):
         "grid_g05_low_v1",
         "grid_g05_high_v1",
         ]
+        missing = 0
         for d in self.synthetic_dataset_names:
             train_list = self.data_dir / d / 'train.txt'
             with open(train_list, "r") as f:
