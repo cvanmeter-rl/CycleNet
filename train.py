@@ -32,5 +32,5 @@ if __name__ == "__main__":
     dataloader = DataLoader(dataset, num_workers=0, batch_size=batch_size_per_gpu, shuffle=True)
 
     logger = ImageLogger(batch_frequency=logger_freq, every_n_train_steps=logger_freq)
-    trainer = pl.Trainer(accelerator="gpu", devices=gpus, precision=32, callbacks=[logger], default_root_dir=log_path)
+    trainer = pl.Trainer(accelerator="gpu", devices=gpus, precision=16, callbacks=[logger], default_root_dir=log_path)
     trainer.fit(model, dataloader)
