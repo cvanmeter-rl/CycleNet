@@ -42,7 +42,8 @@ def main():
         print("No matching files found — check FILENAMES list.")
         return
 
-  
+if __name__ == "__main__":
+    main() 
 
 
 
