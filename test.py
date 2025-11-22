@@ -23,14 +23,14 @@ CKPT_PATH = "./models/cycle_sd21_single_simple_prompt_frozenSD_allControl.ckpt"
 
 
 def main():
-  #device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-  os.makedirs(OUTDIR, exist_ok=True)
+    #device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    os.makedirs(OUTDIR, exist_ok=True)
+    
+    dataset = TrainDataset()
+    # num_to_use = min(NUM_IMAGES, len(dataset))
+    # subset = Subset(dataset, list(range(num_to_use)))
 
-  dataset = TrainDataset()
-  # num_to_use = min(NUM_IMAGES, len(dataset))
-  # subset = Subset(dataset, list(range(num_to_use)))
-
-  wanted = set(FILENAMES)
+    wanted = set(FILENAMES)
     indices = []
     for i, item in enumerate(dataset.data):
         stem = Path(item["image"]).stem  # e.g. "0002002383-1"
