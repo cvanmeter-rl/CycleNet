@@ -58,12 +58,12 @@ def main():
                     batch[k] = v.to(device)
     
             logs = model.log_images(batch, split="test")
-    
-            if "samples" not in logs:
+            key = 'samples_cfg_scale_5.00'
+            if key not in logs:
                 print(f"'samples' not in log_images keys: {list(logs.keys())}")
                 return
     
-            x = logs["samples"]  # (1, C, H, W), in [-1, 1]
+            x = logs[key]  # (1, C, H, W), in [-1, 1]
     
             # to [0,1] for saving
             x = x.float().clamp(-1.0, 1.0)
