@@ -61,8 +61,9 @@ def main():
                 logs = model.log_images(batch, split="test", unconditional_guidance_scale=c)
                 key = f'samples_cfg_scale_{c}'
                 if key not in logs:
-                    print(f"'samples' not in log_images keys: {list(logs.keys())}")
-                    return
+                    print(f"'{key}' not in log_images keys: {list(logs.keys())}")
+                    key = 'conditioning'
+
         
                 x = logs[key]  # (1, C, H, W), in [-1, 1]
         
