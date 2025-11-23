@@ -49,31 +49,32 @@ def main():
     state = load_state_dict(CKPT_PATH, location="cpu")
     model.load_state_dict(state)
     model.eval()
-
+    
+    cfg = [1.00,1.50,2.00,2.50,3.00]
     with torch.no_grad():
         for idx, batch in enumerate(dataloader):
             # move tensor fields to device
             for k, v in batch.items():
                 if isinstance(v, torch.Tensor):
                     batch[k] = v.to(device)
-    
-            logs = model.log_images(batch, split="test")
-            key = 'samples_cfg_scale_5.00'
-            if key not in logs:
-                print(f"'samples' not in log_images keys: {list(logs.keys())}")
-                return
-    
-            x = logs[key]  # (1, C, H, W), in [-1, 1]
-    
-            # to [0,1] for saving
-            x = x.float().clamp(-1.0, 1.0)
-            x = (x + 1.0) / 2.0
-    
-            # use the original filename stem for output name
-            stem = Path(dataset.data[indices[idx]]["image"]).stem
-            out_path = Path(OUTDIR) / f"{stem}_cyclenet.tif"
-            save_image(x[0].cpu(), out_path)
-            print(f"Saved {out_path}")
+            for c in cfg:
+                logs = model.log_images(batch, split="test", unconditional_guidance_scale=c)
+                key = f'samples_cfg_scale_{c}'
+                if key not in logs:
+                    print(f"'samples' not in log_images keys: {list(logs.keys())}")
+                    return
+        
+                x = logs[key]  # (1, C, H, W), in [-1, 1]
+        
+                # to [0,1] for saving
+                x = x.float().clamp(-1.0, 1.0)
+                x = (x + 1.0) / 2.0
+        
+                # use the original filename stem for output name
+                stem = Path(dataset.data[indices[idx]]["image"]).stem
+                out_path = Path(OUTDIR) / f"{stem}_{c}.tif"
+                save_image(x[0].cpu(), out_path)
+                print(f"Saved {out_path}")
 
     print("Done.")
 
