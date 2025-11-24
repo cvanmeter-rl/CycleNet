@@ -63,7 +63,8 @@ def main():
                 if key not in logs:
                     print(f"'{key}' not in log_images keys: {list(logs.keys())}")
                     key = 'conditioning'
-
+                print(logs.keys())
+                print(key)
         
                 x = logs[key]  # (1, C, H, W), in [-1, 1]
         
