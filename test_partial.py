@@ -59,7 +59,7 @@ def main():
                     batch[k] = v.to(device)
             for c in cfg:
                 logs = model.log_images(batch, split="test", unconditional_guidance_scale=c)
-                key = f'samples_cfg_scale_{c}'
+                key = f'samples_cfg_scale_{c:.2f}'
                 if key not in logs:
                     print(f"'{key}' not in log_images keys: {list(logs.keys())}")
                     key = 'conditioning'
