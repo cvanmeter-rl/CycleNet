@@ -27,9 +27,11 @@ if __name__ == "__main__":
     model.only_mid_control = only_mid_control
 
     # Misc
+    print("Loading TrainDataset / DataLoader...")
     dataset = TrainDataset()
-    dataloader = DataLoader(dataset, num_workers=0, batch_size=batch_size_per_gpu, shuffle=True)
+    dataloader = DataLoader(dataset, num_workers=2, batch_size=batch_size_per_gpu, shuffle=True)
 
+    print("Creating Trainer...")
     logger = ImageLogger(batch_frequency=logger_freq, every_n_train_steps=logger_freq)
     trainer = pl.Trainer(
         accelerator="gpu", 
@@ -39,4 +41,5 @@ if __name__ == "__main__":
         default_root_dir=log_path, 
         max_steps=50000
     )
+    print("Training CycleNet!")
     trainer.fit(model, dataloader)
