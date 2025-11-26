@@ -8,7 +8,7 @@ from cycleNet.model import create_model, load_state_dict
 
 # Configs
 resume_path = './models/cycle_sd21_ini.ckpt'
-log_path = './logs/test'
+log_path = './logs/model_1'
 batch_size_per_gpu = 4
 gpus = 1
 logger_freq = 300
