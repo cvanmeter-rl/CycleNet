@@ -37,7 +37,7 @@ if __name__ == "__main__":
     # logger = ImageLogger(batch_frequency=logger_freq, every_n_train_steps=logger_freq)
     checkpoint_cb = ModelCheckpoint(
         dirpath=f"./checkpoints/{model_name}/",
-        filename="step{step:06d}",
+        filename="step-{step:06d}",
         save_top_k=-1,
         every_n_train_steps=2000,
         save_last=True,
@@ -47,9 +47,11 @@ if __name__ == "__main__":
     trainer = pl.Trainer(
         accelerator="gpu", 
         devices=gpus, 
-        precision=32, 
+        precision=16, 
         callbacks=[checkpoint_cb], 
         default_root_dir=log_path, 
+        auto_insert_metric_name=False,
+        save_weights_only=True,
         max_steps=69000
     )
     print("Training CycleNet!")
