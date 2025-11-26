@@ -8,8 +8,8 @@ class TrainDataset(Dataset):
     def __init__(self):
         self.data = []
         self.data_dir = Path("/mnt/project/data/")
-        self.source = ""
-        self.target = ""
+        self.source = "synthetic satellite image"
+        self.target = "real satellite image"
         self.synthetic_dataset_names = [
         "terrain_g05_mid_v1",
         "grid_g05_mid_v2",
@@ -54,8 +54,6 @@ class TrainDataset(Dataset):
             image = np.array(im)
         #normalize to -1,1
         image = (image.astype(np.float32) / 127.5) - 1.0
-        #HWC -> CHW
-        #image = torch.from_numpy(image).permute(2,0,1)
 
         return dict(jpg=image, source=item['source'], txt=item['target'])
         
