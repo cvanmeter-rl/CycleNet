@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
     #logger = ImageLogger(batch_frequency=logger_freq, every_n_train_steps=logger_freq)
     checkpoint_cb = ModelCheckpoint(
-    dirpath=f"/checkpoints/models/cycle_sd21_single_simple_prompt_frozenSD_MidControlTrue/",
+    dirpath=f"./checkpoints/models/cycle_sd21_single_simple_prompt_frozenSD_MidControlTrue/",
     filename="step{step:06d}",
     save_top_k=-1,
     every_n_train_steps=6900,
