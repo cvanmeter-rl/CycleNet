@@ -29,7 +29,7 @@ if __name__ == "__main__":
     # Misc
     print("Loading TrainDataset / DataLoader...")
     dataset = TrainDataset()
-    dataloader = DataLoader(dataset, num_workers=2, batch_size=batch_size_per_gpu, shuffle=True)
+    dataloader = DataLoader(dataset, num_workers=0, batch_size=batch_size_per_gpu, shuffle=True)
 
     print("Creating Trainer...")
     logger = ImageLogger(batch_frequency=logger_freq, every_n_train_steps=logger_freq)
