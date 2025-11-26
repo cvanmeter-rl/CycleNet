@@ -1151,6 +1151,10 @@ class LatentDiffusion(DDPM):
                    plot_diffusion_rows=True, unconditional_guidance_scale=1., unconditional_guidance_label=None,
                    use_ema_scope=True,
                    **kwargs):
+        print(f"plot_diffusion_rows: {plot_diffusion_rows}")
+        print(f"plot_denoise_rows: {plot_denoise_rows}")
+        print(f"plot_progressive_rows: {plot_progressive_rows}")
+        
         ema_scope = self.ema_scope if use_ema_scope else nullcontext
         use_ddim = ddim_steps is not None
 
