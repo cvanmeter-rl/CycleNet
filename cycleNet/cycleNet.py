@@ -121,9 +121,6 @@ class CycleLDM(LatentDiffusion):
                    plot_diffusion_rows=False, unconditional_guidance_scale=5.0, unconditional_guidance_label=None,
                    use_ema_scope=True,
                    **kwargs):
-        print(f"plot_diffusion_rows: {plot_diffusion_rows}")
-        print(f"plot_denoise_rows: {plot_denoise_rows}")
-        print(f"plot_progressive_rows: {plot_progressive_rows}")
 
         use_ddim = ddim_steps is not None
 

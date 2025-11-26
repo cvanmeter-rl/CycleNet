@@ -1,5 +1,5 @@
 import os
-
+import threading
 import numpy as np
 import torch
 import torchvision
@@ -62,8 +62,19 @@ class ImageLogger(Callback):
                     if self.clamp:
                         images[k] = torch.clamp(images[k], -1., 1.)
 
-            self.log_local(pl_module.logger.save_dir, split, images,
-                           pl_module.global_step, pl_module.current_epoch, batch_idx)
+            # self.log_local(pl_module.logger.save_dir, split, images,
+            #                pl_module.global_step, pl_module.current_epoch, batch_idx)
+
+            # ====================
+            # Attempt to speed up image logging
+            # ====================
+            save_thread = threading.Thread(
+                target=self.log_local,
+                args=(pl_module.logger.save_dir, split, images,
+                    pl_module.global_step, pl_module.current_epoch, batch_idx)
+            )
+            save_thread.start()
+
 
             if is_train:
                 pl_module.train()
