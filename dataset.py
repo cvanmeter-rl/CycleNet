@@ -7,9 +7,9 @@ from pathlib import Path
 class TrainDataset(Dataset):
     def __init__(self):
         self.data = []
-        self.data_dir = Path('/mnt/synrs3d/SynRS3D/data/')
-        self.source = 'synthetic satellite map render, flat colors, minimal texture, clean computer-generated style, no haze, no noise, no shadows'
-        self.target = 'realistic highl-resolution satellite image, natural colors, rich textures, realistic lighting, sensor noise, atmospheric haze, soft shadows'
+        self.data_dir = Path("/mnt/project/data/")
+        self.source = ""
+        self.target = ""
         self.synthetic_dataset_names = [
         "terrain_g05_mid_v1",
         "grid_g05_mid_v2",

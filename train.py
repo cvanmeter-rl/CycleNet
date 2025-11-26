@@ -7,13 +7,13 @@ from cycleNet.logger import ImageLogger
 from cycleNet.model import create_model, load_state_dict
 
 # Configs
-resume_path = './models/cycle_sd21_single_simple_prompt_frozenSD_allControl.ckpt'
+resume_path = './models/cycle_sd21_ini.ckpt'
 log_path = './logs'
-batch_size_per_gpu = 1
+batch_size_per_gpu = 4
 gpus = 1
 logger_freq = 300
 learning_rate = 1e-5
-sd_locked = True
+sd_locked = False
 only_mid_control = False
 
 
@@ -25,7 +25,6 @@ if __name__ == "__main__":
     model.learning_rate = learning_rate
     model.sd_locked = sd_locked
     model.only_mid_control = only_mid_control
-
 
     # Misc
     dataset = TrainDataset()
