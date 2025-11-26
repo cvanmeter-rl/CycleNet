@@ -117,11 +117,10 @@ class CycleLDM(LatentDiffusion):
 
     @torch.no_grad()
     def log_images(self, batch, N=4, n_row=2, sample=False, ddim_steps=20, ddim_eta=0.0, return_keys=None,
-                   quantize_denoised=True, inpaint=False, plot_denoise_rows=False, plot_progressive_rows=False,
+                   quantize_denoised=True, inpaint=True, plot_denoise_rows=False, plot_progressive_rows=True,
                    plot_diffusion_rows=False, unconditional_guidance_scale=5.0, unconditional_guidance_label=None,
                    use_ema_scope=True,
                    **kwargs):
-
         use_ddim = ddim_steps is not None
 
         log = dict()

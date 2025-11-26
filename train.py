@@ -1,6 +1,7 @@
 from share import *
 
 import pytorch_lightning as pl
+from pytorch_lightning.callbacks import ModelCheckpoint
 from torch.utils.data import DataLoader
 from dataset import TrainDataset
 from cycleNet.logger import ImageLogger
@@ -8,7 +9,8 @@ from cycleNet.model import create_model, load_state_dict
 
 # Configs
 resume_path = './models/cycle_sd21_ini.ckpt'
-log_path = './logs/model_1'
+model_name = 'model_1'
+log_path = f'./logs/{model_name}'
 batch_size_per_gpu = 4
 gpus = 1
 logger_freq = 300
@@ -32,14 +34,23 @@ if __name__ == "__main__":
     dataloader = DataLoader(dataset, num_workers=0, batch_size=batch_size_per_gpu, shuffle=True)
 
     print("Creating Trainer...")
-    logger = ImageLogger(batch_frequency=logger_freq, every_n_train_steps=logger_freq)
+    # logger = ImageLogger(batch_frequency=logger_freq, every_n_train_steps=logger_freq)
+    checkpoint_cb = ModelCheckpoint(
+        dirpath=f"./checkpoints/{model_name}/",
+        filename="step{step:06d}",
+        save_top_k=-1,
+        every_n_train_steps=2000,
+        save_last=True,
+        monitor=None
+    )
+
     trainer = pl.Trainer(
         accelerator="gpu", 
         devices=gpus, 
         precision=32, 
-        callbacks=[logger], 
+        callbacks=[checkpoint_cb], 
         default_root_dir=log_path, 
-        max_steps=50000
+        max_steps=69000
     )
     print("Training CycleNet!")
     trainer.fit(model, dataloader)
