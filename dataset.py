@@ -30,6 +30,7 @@ class TrainDataset(Dataset):
         "grid_g05_high_v1",
         ]
         missing = 0
+        missing_files = []
         for d in self.synthetic_dataset_names:
             train_list = self.data_dir / d / 'train.txt'
             with open(train_list, "r") as f:
@@ -40,7 +41,9 @@ class TrainDataset(Dataset):
                     self.data.append({'image':img_filepath, 'source': self.source, 'target': self.target})
                 else:
                     missing += 1
+                    missing_files.append(img_filepath)
         print(f"[INFO] Loaded {len(self.data)} images, skipped {missing} missing files.")
+        print(f"---- Missing files: {missing_files}")
 
     def __len__(self):
         return len(self.data)
