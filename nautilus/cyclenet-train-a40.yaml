@@ -27,7 +27,7 @@ spec:
             source /opt/conda/etc/profile.d/conda.sh &&
             conda activate /mnt/project/envs/cycle &&
             cd /mnt/project/CycleNet &&
-            python train.py
+            python -u train.py
         volumeMounts:
         - name: lmbdnz-cyclenet
           mountPath: /mnt/project

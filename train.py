@@ -41,7 +41,9 @@ if __name__ == "__main__":
         save_top_k=-1,
         every_n_train_steps=2000,
         save_last=True,
-        monitor=None
+        monitor=None,
+        auto_insert_metric_name=False,
+        save_weights_only=True
     )
 
     trainer = pl.Trainer(
@@ -50,8 +52,6 @@ if __name__ == "__main__":
         precision=16, 
         callbacks=[checkpoint_cb], 
         default_root_dir=log_path, 
-        auto_insert_metric_name=False,
-        save_weights_only=True,
         max_steps=69000
     )
     print("Training CycleNet!")
