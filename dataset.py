@@ -11,39 +11,47 @@ class TrainDataset(Dataset):
         self.source = "synthetic satellite image"
         self.target = "real satellite image"
         self.synthetic_dataset_names = [
-        "terrain_g05_mid_v1",
-        "grid_g05_mid_v2",
-        "terrain_g05_low_v1",
-        "terrain_g05_high_v1",
-        "terrain_g005_mid_v1",
-        "terrain_g005_low_v1",
-        "grid_g005_mid_v2",
-        "terrain_g005_high_v1",
-        "terrain_g1_mid_v1",
-        "terrain_g1_low_v1",
-        "terrain_g1_high_v1",
-        "grid_g005_mid_v1",
-        "grid_g005_low_v1",
-        "grid_g005_high_v1",
-        "grid_g05_mid_v1",
-        "grid_g05_low_v1",
-        "grid_g05_high_v1",
+            "terrain_g05_mid_v1",
+            "grid_g05_mid_v2",
+            "terrain_g05_low_v1",
+            "terrain_g05_high_v1",
+            "terrain_g005_mid_v1",
+            "terrain_g005_low_v1",
+            "grid_g005_mid_v2",
+            "terrain_g005_high_v1",
+            "terrain_g1_mid_v1",
+            "terrain_g1_low_v1",
+            "terrain_g1_high_v1",
+            "grid_g005_mid_v1",
+            "grid_g005_low_v1",
+            "grid_g005_high_v1",
+            "grid_g05_mid_v1",
+            "grid_g05_low_v1",
+            "grid_g05_high_v1",
         ]
-        missing = 0
-        missing_files = []
+        # -- Missing images to ignore
+        self.missing_files = set([
+            '/mnt/project/data/grid_g05_mid_v2/opt/0000449416-1.tif', 
+            '/mnt/project/data/grid_g005_mid_v2/opt/0000069746-1.tif', 
+            '/mnt/project/data/grid_g005_mid_v1/opt/0000008541-1.tif', 
+            '/mnt/project/data/grid_g005_low_v1/opt/0000335672-1.tif', 
+            '/mnt/project/data/grid_g005_high_v1/opt/0000301247-1.tif', 
+            '/mnt/project/data/grid_g05_mid_v1/opt/0000004516-1.tif', 
+            '/mnt/project/data/grid_g05_low_v1/opt/0000034895-1.tif', 
+            '/mnt/project/data/grid_g05_high_v1/opt/0002002383-1.tif'
+        ])
+
         for d in self.synthetic_dataset_names:
             train_list = self.data_dir / d / 'train.txt'
+            
             with open(train_list, "r") as f:
                 image_list = [ln.strip() for ln in f if ln.strip()]
+
             for image_name in image_list:
                 img_filepath = self.data_dir / d / 'opt' / f'{image_name}.tif'
-                if Path(img_filepath).exists():
+
+                if str(img_filepath) not in self.missing_files:
                     self.data.append({'image':img_filepath, 'source': self.source, 'target': self.target})
-                else:
-                    missing += 1
-                    missing_files.append(img_filepath)
-        print(f"[INFO] Loaded {len(self.data)} images, skipped {missing} missing files.")
-        print(f"---- Missing files: {missing_files}")
 
     def __len__(self):
         return len(self.data)
@@ -54,8 +62,12 @@ class TrainDataset(Dataset):
 
         with Image.open(path) as im:
             im = im.convert("RGB")
+            # -- Resize if not 512x512
+            if im.size != (512, 512):
+                im = im.resize((512, 512), resample=Image.BICUBIC)
             image = np.array(im)
-        #normalize to -1,1
+
+        # -- Normalize to [-1,1]
         image = (image.astype(np.float32) / 127.5) - 1.0
 
         return dict(jpg=image, source=item['source'], txt=item['target'])
