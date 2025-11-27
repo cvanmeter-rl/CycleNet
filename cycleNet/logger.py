@@ -8,6 +8,33 @@ from pytorch_lightning.callbacks import Callback
 from pytorch_lightning.utilities.distributed import rank_zero_only
 
 
+class TextLogger(Callback):
+    def __init__(self, log_every_n_steps=50):
+        self.log_every_n_steps = log_every_n_steps
+
+    def on_train_batch_end(self, trainer, pl_module, outputs, batch, batch_idx):
+        if trainer.global_step % self.log_every_n_steps == 0:
+            # Try to access the loss from the outputs or the logged metrics
+            # Note: outputs is usually a dict containing 'loss' if training_step returns it
+            loss = outputs.get("loss") if isinstance(outputs, dict) else outputs
+            
+            # If not in outputs, try trainer.callback_metrics (logged via self.log)
+            if loss is None:
+                loss = trainer.callback_metrics.get("train_loss") or trainer.callback_metrics.get("loss")
+            
+            # Format loss to 4 decimal places if available
+            loss_val = f"{loss:.4f}" if loss is not None else "N/A"
+            
+            current_lr = trainer.optimizers[0].param_groups[0]['lr']
+            
+            print(
+                f"Epoch {trainer.current_epoch} | "
+                f"Step {trainer.global_step} | "
+                f"Loss: {loss_val} | "
+                f"LR: {current_lr:.2e}"
+            )
+
+
 class ImageLogger(Callback):
     def __init__(self, batch_frequency=2000, max_images=4, every_n_train_steps=1000, clamp=True, increase_log_steps=True,
                  rescale=True, disabled=False, log_on_batch_idx=False, log_first_step=False,

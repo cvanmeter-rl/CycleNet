@@ -4,7 +4,7 @@ import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint, TQDMProgressBar
 from torch.utils.data import DataLoader
 from dataset import TrainDataset
-from cycleNet.logger import ImageLogger
+from cycleNet.logger import ImageLogger, TextLogger
 from cycleNet.model import create_model, load_state_dict
 
 # Configs
@@ -13,7 +13,7 @@ model_name = 'model_1'
 log_path = f'./logs/{model_name}'
 batch_size_per_gpu = 4
 gpus = 1
-logger_freq = 300
+logger_freq = 20
 learning_rate = 1e-5
 sd_locked = False
 only_mid_control = False
@@ -45,13 +45,14 @@ if __name__ == "__main__":
         auto_insert_metric_name=False,
         save_weights_only=True
     )
-    progress_bar = TQDMProgressBar(refresh_rate=20)
+    logger = TextLogger(log_every_n_steps=logger_freq)
+
 
     trainer = pl.Trainer(
         accelerator="gpu", 
         devices=gpus, 
         precision=16, 
-        callbacks=[checkpoint_cb, progress_bar], 
+        callbacks=[checkpoint_cb, logger], 
         default_root_dir=log_path, 
         max_steps=69000
     )
