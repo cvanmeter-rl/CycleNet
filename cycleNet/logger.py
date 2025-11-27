@@ -1,39 +1,51 @@
 import os
-
+import sys
 import numpy as np
 import torch
 import torchvision
 from PIL import Image
-from pytorch_lightning.callbacks import Callback
+from pytorch_lightning.callbacks import Callback, TQDMProgressBar
 from pytorch_lightning.utilities.distributed import rank_zero_only
 
 
-class TextLogger(Callback):
-    def __init__(self, log_every_n_steps=50):
-        self.log_every_n_steps = log_every_n_steps
+# class TextLogger(Callback):
+#     def __init__(self, log_every_n_steps=50):
+#         self.log_every_n_steps = log_every_n_steps
 
-    def on_train_batch_end(self, trainer, pl_module, outputs, batch, batch_idx):
-        if trainer.global_step % self.log_every_n_steps == 0:
-            # Try to access the loss from the outputs or the logged metrics
-            # Note: outputs is usually a dict containing 'loss' if training_step returns it
-            loss = outputs.get("loss") if isinstance(outputs, dict) else outputs
+#     def on_train_batch_end(self, trainer, pl_module, outputs, batch, batch_idx):
+#         if trainer.global_step % self.log_every_n_steps == 0:
+#             # Try to access the loss from the outputs or the logged metrics
+#             # Note: outputs is usually a dict containing 'loss' if training_step returns it
+#             loss = outputs.get("loss") if isinstance(outputs, dict) else outputs
             
-            # If not in outputs, try trainer.callback_metrics (logged via self.log)
-            if loss is None:
-                loss = trainer.callback_metrics.get("train_loss") or trainer.callback_metrics.get("loss")
+#             # If not in outputs, try trainer.callback_metrics (logged via self.log)
+#             if loss is None:
+#                 loss = trainer.callback_metrics.get("train_loss") or trainer.callback_metrics.get("loss")
             
-            # Format loss to 4 decimal places if available
-            loss_val = f"{loss:.4f}" if loss is not None else "N/A"
+#             # Format loss to 4 decimal places if available
+#             loss_val = f"{loss:.4f}" if loss is not None else "N/A"
             
-            current_lr = trainer.optimizers[0].param_groups[0]['lr']
+#             current_lr = trainer.optimizers[0].param_groups[0]['lr']
             
-            print(
-                f"Epoch {trainer.current_epoch} | "
-                f"Step {trainer.global_step} | "
-                f"Loss: {loss_val} | "
-                f"LR: {current_lr:.2e}"
-            )
+#             print(
+#                 f"Epoch {trainer.current_epoch} | "
+#                 f"Step {trainer.global_step} | "
+#                 f"Loss: {loss_val} | "
+#                 f"LR: {current_lr:.2e}"
+#             )
 
+
+class ProgressBar(TQDMProgressBar):
+    def init_train_tqdm(self):
+        bar = super().init_train_tqdm()
+        bar.file = sys.stdout # Force writing to standard output
+        return bar
+    
+    def init_validation_tqdm(self):
+        bar = super().init_validation_tqdm()
+        bar.file = sys.stdout # Force writing to standard output
+        return bar
+    
 
 class ImageLogger(Callback):
     def __init__(self, batch_frequency=2000, max_images=4, every_n_train_steps=1000, clamp=True, increase_log_steps=True,
