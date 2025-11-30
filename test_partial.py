@@ -93,7 +93,7 @@ def main():
             
                     # use the original filename stem for output name
                     stem = Path(dataset.data[indices[idx]]["image"]).stem
-                    out_path = ckpt_output / f"{stem}_{c}.tif"
+                    out_path = ckpt_outdir / f"{stem}_{c}.tif"
                     save_image(x[0].cpu(), out_path)
                     print(f"Saved {out_path}")
     
