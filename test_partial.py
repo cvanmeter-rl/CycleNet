@@ -63,7 +63,7 @@ def main():
         # Load model
         print(f"Loading model from {CONFIG_PATH} and {ckpt}")
         model = create_model(CONFIG_PATH).to(device)
-        state = load_state_dict(f'/mnt/cyclenet/CycleNet/checkpoints/models/cycle_sd21_single_simple_prompt_frozenSD_MidControlTrue/\'{ckpt}\'', location="cpu")
+        state = load_state_dict(f'/mnt/cyclenet/CycleNet/checkpoints/models/cycle_sd21_single_simple_prompt_frozenSD_MidControlTrue/{ckpt}', location="cpu")
         model.load_state_dict(state)
         model.eval()
         
