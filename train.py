@@ -14,7 +14,7 @@ np.random.seed(21)
 torch.manual_seed(21)
 
 # Configs
-resume_path = './models/cycle_sd21_single_simple_prompt_frozenSD_MidControlTrue.ckpt'
+resume_path = './models/cycle_sd21_single_simple_prompt_frozenSD_MidControlTrue_losses_changed.ckpt'
 log_path = './logs'
 batch_size_per_gpu = 1
 gpus = 1
@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
     #logger = ImageLogger(batch_frequency=logger_freq, every_n_train_steps=logger_freq)
     checkpoint_cb = ModelCheckpoint(
-    dirpath=f"./checkpoints/models/cycle_sd21_single_simple_prompt_frozenSD_MidControlTrue/",
+    dirpath=f"./checkpoints/models/cycle_sd21_single_simple_prompt_frozenSD_MidControlTrue_losses_changed/",
     filename="step{step:06d}",
     save_top_k=-1,
     every_n_train_steps=6900,
