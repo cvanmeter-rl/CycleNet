@@ -17,11 +17,11 @@ model:
     scale_factor: 0.18215
     use_ema: False
     only_mid_control: False
-    recon_weight: 1
-    cycle_weight: 0.01
-    disc_weight: 0.1
-    disc_mode: eps
-    consis_weight: 0.1
+    recon_weight: 5 #1 def
+    cycle_weight: 0.1 #0.01 def
+    disc_weight: 0.05 #0.1 def
+    disc_mode: eps 
+    consis_weight: 0.5 #0.1 def
 
     control_stage_config:
       target: cldm.cldm.ControlNet
