@@ -59,7 +59,7 @@ def main():
 
     with torch.no_grad():
         for i, batch in enumerate(dataloader):
-            to_device(batch)
+            to_device(batch, device)
 
             logs = model.log_images(
                 batch, 
