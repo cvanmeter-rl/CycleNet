@@ -64,7 +64,7 @@ def main():
             batch = to_device(batch, device)
 
             for c in cfg:
-                out_dir = os.path.join(FIGS_DIR, f"{str(cfg).replace('.','_')}")
+                out_dir = os.path.join(FIGS_DIR, f"{str(c).replace('.','_')}")
                 os.makedirs(out_dir, exist_ok=True)
 
                 if c == 1.00:
