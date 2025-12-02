@@ -26,10 +26,11 @@ def main():
     # ----------
     # Load Model
     # ----------
+    print("Loading model...")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     model = create_model(CONFIG_PATH)
-    state_dict = load_state_dict(CKPT_PATH, locaiton=device)
+    state_dict = load_state_dict(CKPT_PATH, location=device)
     model.load_state_dict(state_dict, strict=False)
 
     model.eval()
@@ -37,6 +38,7 @@ def main():
     # ----------
     # Load Test Data
     # ----------
+    print("Loading dataset...")
     dataset = TrainDataset()
 
     indices = []
@@ -51,6 +53,8 @@ def main():
     # ----------
     # Log Images
     # ----------
+    print("Testing model...")
+
     cfg = 5.00
 
     with torch.no_grad():
