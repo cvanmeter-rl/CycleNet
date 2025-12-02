@@ -64,7 +64,7 @@ def main():
             batch = to_device(batch, device)
 
             for c in cfg:
-                out_dir = os.path.join(FIGS_DIR, f"{str(c).replace('.','_')}")
+                out_dir = os.path.join(FIGS_DIR, str(c))
                 os.makedirs(out_dir, exist_ok=True)
 
                 if c == 1.00:
@@ -88,7 +88,7 @@ def main():
                 x = (x + 1.0) / 2.0
 
                 stem = Path(dataset.data[indices[i]]["image"]).stem
-                out_path = Path(out_dir) / f"{stem}_{cfg}.tif"
+                out_path = Path(out_dir) / f"{stem}_{c}.tif"
                 save_image(x[0].cpu(), out_path)
                 print(f"Saved {out_path}")
 
