@@ -14,7 +14,7 @@ FILENAMES = set([
 ])
 CONFIG_PATH = "./models/cycle_v21.yaml"
 CKPT_PATH = "./checkpoints/model_1/step-049999.ckpt"
-OUT_DIR = "./figs/model_1"
+FIGS_DIR = "./figs/model_1"
 
 
 def to_device(batch: dict, device: torch.device):
@@ -55,30 +55,42 @@ def main():
     # ----------
     # Log Images
     # ----------
-    os.makedirs(OUT_DIR, exist_ok=True)
-
     print("Testing model...")
 
-    cfg = 5.00
+    cfg = [1.00,1.50,2.00,2.50,3.00,3.50,4.00,4.50,5.00]
 
     with torch.no_grad():
         for i, batch in enumerate(dataloader):
             batch = to_device(batch, device)
 
-            logs = model.log_images(
-                batch, 
-                split="test", 
-                unconditional_guidance_scale=5.0
-            )
-            x = logs[f"samples_cfg_scale_{cfg:.2f}"]
+            for c in cfg:
+                out_dir = os.path.join(FIGS_DIR, f"{str(cfg).replace('.','_')}")
+                os.makedirs(out_dir, exist_ok=True)
 
-            x = x.float().clamp(-1.0, 1.0)
-            x = (x + 1.0) / 2.0
+                if c == 1.00:
+                    logs = model.log_images(
+                        batch, 
+                        split="test", 
+                        unconditional_guidance_scale=c,
+                        sample=True
+                    )
+                    key = 'samples'
+                else:
+                    logs = model.log_images(
+                        batch, 
+                        split="test", 
+                        unconditional_guidance_scale=c
+                    )
+                    key = f"samples_cfg_scale_{c:.2f}"
 
-            stem = Path(dataset.data[indices[i]]["image"]).stem
-            out_path = Path(OUT_DIR) / f"{stem}_{cfg}.tif"
-            save_image(x[0].cpu(), out_path)
-            print(f"Saved {out_path}")
+                x = logs[key]
+                x = x.float().clamp(-1.0, 1.0)
+                x = (x + 1.0) / 2.0
+
+                stem = Path(dataset.data[indices[i]]["image"]).stem
+                out_path = Path(out_dir) / f"{stem}_{cfg}.tif"
+                save_image(x[0].cpu(), out_path)
+                print(f"Saved {out_path}")
 
     print("Done.")
 
