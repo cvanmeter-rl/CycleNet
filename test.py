@@ -55,6 +55,8 @@ def main():
     # ----------
     # Log Images
     # ----------
+    os.makedirs(OUT_DIR, exist_ok=True)
+
     print("Testing model...")
 
     cfg = 5.00
