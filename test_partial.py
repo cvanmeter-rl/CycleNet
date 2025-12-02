@@ -14,9 +14,9 @@ FILENAMES = [
     "0000000001-1_1",
 ]
 
-NUM_IMAGES = 16  # how many images to test on
+#NUM_IMAGES = 16  # how many images to test on
 BATCH_SIZE = 1
-OUTDIR = "./test_outputs_single_simple_prompt_frozenSD_allControl"
+OUTDIR = "./cycle_sd21_single_simple_prompt_frozenSD_MidControlTrue_losses_changed"
 
 CONFIG_PATH = "./models/cycle_v21.yaml"
 #CKPT_PATH = "./models/cycle_sd21_single_simple_prompt_frozenSD_allControl.ckpt"
@@ -63,7 +63,7 @@ def main():
         # Load model
         print(f"Loading model from {CONFIG_PATH} and {ckpt}")
         model = create_model(CONFIG_PATH).to(device)
-        state = load_state_dict(f'/mnt/cyclenet/CycleNet/checkpoints/models/cycle_sd21_single_simple_prompt_frozenSD_MidControlTrue/{ckpt}', location="cpu")
+        state = load_state_dict(f'/mnt/cyclenet/CycleNet/checkpoints/models/cycle_sd21_single_simple_prompt_frozenSD_MidControlTrue_losses_changed/{ckpt}', location="cpu")
         model.load_state_dict(state)
         model.eval()
         
@@ -93,7 +93,7 @@ def main():
             
                     # use the original filename stem for output name
                     stem = Path(dataset.data[indices[idx]]["image"]).stem
-                    out_path = ckpt_outdir / f"{stem}_{c}.tif"
+                    out_path = ckpt_outdir / f"{c}_{stem}.tif"
                     save_image(x[0].cpu(), out_path)
                     print(f"Saved {out_path}")
     
