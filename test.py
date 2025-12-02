@@ -16,7 +16,7 @@ FILENAMES = set([
 CONFIG_PATH = "./models/cycle_v21.yaml"
 CHECKPOINT_DIR = "./checkpoints/model_1/"
 CHECKPOINTS = [
-    "step-001999.ckpt"
+    "step-001999.ckpt",
     "step-003999.ckpt",
     "step-005999.ckpt",
     "step-007999.ckpt",
@@ -40,7 +40,7 @@ CHECKPOINTS = [
     "step-043999.ckpt",
     "step-045999.ckpt",
     "step-047999.ckpt",
-    "step-049999.ckpt",
+    "step-049999.ckpt"
 ]
 
 
