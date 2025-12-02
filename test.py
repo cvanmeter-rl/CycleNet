@@ -7,14 +7,41 @@ from torchvision.utils import save_image
 from dataset import TrainDataset
 from cycleNet.model import create_model, load_state_dict
 
+FIGS_DIR = "./figs/model_1"
 FILENAMES = set([
     "0000000000-1",
     "0000000001-1",
     "0000000001-1_1",
 ])
 CONFIG_PATH = "./models/cycle_v21.yaml"
-CKPT_PATH = "./checkpoints/model_1/step-049999.ckpt"
-FIGS_DIR = "./figs/model_1"
+CHECKPOINT_DIR = "./checkpoints/model_1/"
+CHECKPOINTS = [
+    "step-001999.ckpt"
+    "step-003999.ckpt",
+    "step-005999.ckpt",
+    "step-007999.ckpt",
+    "step-009999.ckpt",
+    "step-011999.ckpt",
+    "step-013999.ckpt",
+    "step-015999.ckpt",
+    "step-017999.ckpt",
+    "step-019999.ckpt",
+    "step-021999.ckpt",
+    "step-023999.ckpt",
+    "step-025999.ckpt",
+    "step-027999.ckpt",
+    "step-029999.ckpt",
+    "step-031999.ckpt",
+    "step-033999.ckpt",
+    "step-035999.ckpt",
+    "step-037999.ckpt",
+    "step-039999.ckpt",
+    "step-041999.ckpt",
+    "step-043999.ckpt",
+    "step-045999.ckpt",
+    "step-047999.ckpt",
+    "step-049999.ckpt",
+]
 
 
 def to_device(batch: dict, device: torch.device):
@@ -23,22 +50,20 @@ def to_device(batch: dict, device: torch.device):
             batch[k] = v.to(device)
     return batch
 
+
 def main():
     # ----------
-    # Load Model
+    # Initialize CycleNet model
     # ----------
-    print("Loading model...")
+    print("Initializing model architecture...")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     model = create_model(CONFIG_PATH)
-    state_dict = load_state_dict(CKPT_PATH, location=device)
-    model.load_state_dict(state_dict, strict=False)
     model = model.to(device)
-
     model.eval()
 
     # ----------
-    # Load Test Data
+    # Load TrainDataset test images
     # ----------
     print("Loading dataset...")
     dataset = TrainDataset()
@@ -52,47 +77,59 @@ def main():
     subset = Subset(dataset, indices)
     dataloader = DataLoader(subset, batch_size=1, shuffle=False, num_workers=0)
 
-    # ----------
-    # Log Images
-    # ----------
-    print("Testing model...")
+    for ckpt in CHECKPOINTS:
+        # ----------
+        # Load Model
+        # ----------
+        print(f"\n---- Testing {ckpt} ----")
 
-    cfg = [1.00,1.50,2.00,2.50,3.00,3.50,4.00,4.50,5.00]
+        print("Loading model...")
+        ckpt_path = os.path.join(CHECKPOINT_DIR, ckpt)
+        state_dict = load_state_dict(ckpt_path, location="cpu")
+        model.load_state_dict(state_dict, strict=False)
 
-    with torch.no_grad():
-        for i, batch in enumerate(dataloader):
-            batch = to_device(batch, device)
+        # ----------
+        # Log Images
+        # ----------
+        print("Testing model...")
 
-            for c in cfg:
-                out_dir = os.path.join(FIGS_DIR, str(c))
-                os.makedirs(out_dir, exist_ok=True)
+        cfg = [1.00,2.00,3.00,4.00,5.00,10.00,15.00]
 
-                if c == 1.00:
-                    logs = model.log_images(
-                        batch, 
-                        split="test", 
-                        unconditional_guidance_scale=c,
-                        sample=True
-                    )
-                    key = 'samples'
-                else:
-                    logs = model.log_images(
-                        batch, 
-                        split="test", 
-                        unconditional_guidance_scale=c
-                    )
-                    key = f"samples_cfg_scale_{c:.2f}"
+        with torch.no_grad():
+            for i, batch in enumerate(dataloader):
+                batch = to_device(batch, device)
 
-                x = logs[key]
-                x = x.float().clamp(-1.0, 1.0)
-                x = (x + 1.0) / 2.0
+                for c in cfg:
+                    ckpt_name = str(Path(ckpt).stem)
+                    out_dir = os.path.join(FIGS_DIR, ckpt_name, str(c))
+                    os.makedirs(out_dir, exist_ok=True)
 
-                stem = Path(dataset.data[indices[i]]["image"]).stem
-                out_path = Path(out_dir) / f"{stem}_{c}.tif"
-                save_image(x[0].cpu(), out_path)
-                print(f"Saved {out_path}")
+                    if c == 1.00:
+                        logs = model.log_images(
+                            batch, 
+                            split="test", 
+                            unconditional_guidance_scale=c,
+                            sample=True
+                        )
+                        key = 'samples'
+                    else:
+                        logs = model.log_images(
+                            batch, 
+                            split="test", 
+                            unconditional_guidance_scale=c
+                        )
+                        key = f"samples_cfg_scale_{c:.2f}"
 
-    print("Done.")
+                    x = logs[key]
+                    x = x.float().clamp(-1.0, 1.0)
+                    x = (x + 1.0) / 2.0
+
+                    stem = Path(dataset.data[indices[i]]["image"]).stem
+                    out_path = Path(out_dir) / f"{stem}_{c}.tif"
+                    save_image(x[0].cpu(), out_path)
+                    print(f"Saved {out_path}")
+
+        print("Done.")
 
 
 if __name__ == "__main__":
