@@ -33,6 +33,7 @@ def main():
     model = create_model(CONFIG_PATH)
     state_dict = load_state_dict(CKPT_PATH, location=device)
     model.load_state_dict(state_dict, strict=False)
+    model = model.to(device)
 
     model.eval()
 
