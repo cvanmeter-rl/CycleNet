@@ -45,8 +45,10 @@ if __name__ == "__main__":
     # Misc
     if args.dataset == "synthethic_only":
         dataset = TrainDataset()
-    else:
+    elif args.dataset == "real_and_synthethic":
         dataset = RealAndSynthethicTrainDataset()
+    else:
+        return "Invalid Dataset Entered"
         
     dataloader = DataLoader(dataset, num_workers=0, batch_size=batch_size_per_gpu, shuffle=True)
 
