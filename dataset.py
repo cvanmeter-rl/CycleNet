@@ -8,8 +8,8 @@ class TrainDataset(Dataset):
     def __init__(self):
         self.data = []
         self.data_dir = Path("/mnt/project/data/")
-        self.source = "synthetic satellite image"
-        self.target = "real satellite image"
+        self.source = "synthetic"
+        self.target = "real"
         self.synthetic_dataset_names = [
             "terrain_g05_mid_v1",
             "grid_g05_mid_v2",
