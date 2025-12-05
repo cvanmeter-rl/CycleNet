@@ -10,6 +10,7 @@ from cycleNet.model import create_model, load_state_dict
 import numpy as np
 import torch
 import argparse
+import sys
 
 torch.cuda.manual_seed(21)
 np.random.seed(21)
@@ -48,7 +49,7 @@ if __name__ == "__main__":
     elif args.dataset == "real_and_synthetic":
         dataset = RealAndSynthethicTrainDataset()
     else:
-        return "Invalid Dataset Entered"
+        raise ValueError(f"Invalid dataset entered: {args.dataset}")
         
     dataloader = DataLoader(dataset, num_workers=0, batch_size=batch_size_per_gpu, shuffle=True)
 
