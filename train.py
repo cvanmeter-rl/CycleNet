@@ -2,14 +2,20 @@ from share import *
 
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import ModelCheckpoint
+import torch
 from torch.utils.data import DataLoader
+import numpy as np
 from dataset import TrainDataset
 from cycleNet.logger import ImageLogger, TextLogger
 from cycleNet.model import create_model, load_state_dict
 
+torch.cuda.manual_seed(21)
+np.random.seed(21)
+torch.manual_seed(21)
+
 # Configs
 resume_path = './models/cycle_sd21_ini.ckpt'
-model_name = 'model_1'
+model_name = 'simple_prompt'
 log_path = f'./logs/{model_name}'
 batch_size_per_gpu = 4
 gpus = 1
