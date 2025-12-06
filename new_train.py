@@ -34,7 +34,9 @@ def get_args():
 
 
 if __name__ == "__main__":
-
+    args = get_args()
+    print("collected args")
+    
     # First use cpu to load models. Pytorch Lightning will automatically move it to GPUs.
     model = create_model('./models/cycle_v21.yaml').cpu()
     model.load_state_dict(load_state_dict(resume_path, location='cpu'))
