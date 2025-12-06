@@ -16,21 +16,21 @@ FILENAMES = [
 
 #NUM_IMAGES = 16  # how many images to test on
 BATCH_SIZE = 1
-OUTDIR = "./cycle_sd21_single_simple_prompt_frozenSD_MidControlTrue_losses_changed"
+OUTDIR = "./single_simple_prompt_Both_False_bs4"
 
 CONFIG_PATH = "./models/cycle_v21.yaml"
 #CKPT_PATH = "./models/cycle_sd21_single_simple_prompt_frozenSD_allControl.ckpt"
 ckpt_paths = [
-'stepstep=020699.ckpt',
-'stepstep=041399.ckpt',
-'stepstep=062099.ckpt',
-'stepstep=006899.ckpt',  
-'stepstep=027599.ckpt',  
-'stepstep=048299.ckpt',  
-'stepstep=068999.ckpt',     
-'stepstep=013799.ckpt',  
-'stepstep=034499.ckpt', 
-'stepstep=055199.ckpt',
+'stepstep=009999.ckpt',
+'stepstep=019999.ckpt',
+'stepstep=029999.ckpt',
+'stepstep=039999.ckpt',
+'stepstep=049999.ckpt',
+'stepstep=004999.ckpt',
+'stepstep=014999.ckpt',
+'stepstep=024999.ckpt',
+'stepstep=034999.ckpt',
+'stepstep=044999.ckpt',
 ]
 
 
@@ -63,11 +63,11 @@ def main():
         # Load model
         print(f"Loading model from {CONFIG_PATH} and {ckpt}")
         model = create_model(CONFIG_PATH).to(device)
-        state = load_state_dict(f'/mnt/cyclenet/CycleNet/checkpoints/models/cycle_sd21_single_simple_prompt_frozenSD_MidControlTrue_losses_changed/{ckpt}', location="cpu")
+        state = load_state_dict(f'/mnt/cyclenet/CycleNet/checkpoints/models/single_simple_prompt_Both_False_bs4/{ckpt}', location="cpu")
         model.load_state_dict(state)
         model.eval()
         
-        cfg = [1.00,1.50,2.00,2.50,3.00]
+        cfg = [1.00,1.50,2.00,2.50,3.00,3.50,4.00,4.50,5.00]
         with torch.no_grad():
             for idx, batch in enumerate(dataloader):
                 # move tensor fields to device
