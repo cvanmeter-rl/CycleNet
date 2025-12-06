@@ -4,7 +4,7 @@ from pytorch_lightning.callbacks import ModelCheckpoint
 import pytorch_lightning as pl
 from torch.utils.data import DataLoader
 from dataset import TrainDataset
-from real_and_synthethic_dataset import RealAndSynthethicTrainDataset
+from real_and_synthetic_dataset import RealAndSynthethicTrainDataset
 from cycleNet.logger import ImageLogger
 from cycleNet.model import create_model, load_state_dict
 import numpy as np
