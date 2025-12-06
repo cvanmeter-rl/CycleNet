@@ -46,9 +46,9 @@ if __name__ == "__main__":
 
 
     # Misc
-    if args.dataset == "synthethic_only":
+    if args.dataset_type == "synthethic_only":
         dataset = TrainDataset()
-    elif args.dataset == "real_and_synthetic":
+    elif args.dataset_type == "real_and_synthetic":
         dataset = RealAndSynthethicTrainDataset()
     else:
         raise ValueError(f"Invalid dataset entered: {args.dataset}")
