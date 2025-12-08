@@ -7,41 +7,14 @@ from torchvision.utils import save_image
 from dataset import TrainDataset
 from cycleNet.model import create_model, load_state_dict
 
-FIGS_DIR = "./figs/model_1"
+FIGS_DIR = "./figs/simple_prompt"
 FILENAMES = set([
     "0000000000-1",
     "0000000001-1",
     "0000000001-1_1",
 ])
 CONFIG_PATH = "./models/cycle_v21.yaml"
-CHECKPOINT_DIR = "./checkpoints/model_1/"
-CHECKPOINTS = [
-    "step-001999.ckpt",
-    "step-003999.ckpt",
-    "step-005999.ckpt",
-    "step-007999.ckpt",
-    "step-009999.ckpt",
-    "step-011999.ckpt",
-    "step-013999.ckpt",
-    "step-015999.ckpt",
-    "step-017999.ckpt",
-    "step-019999.ckpt",
-    "step-021999.ckpt",
-    "step-023999.ckpt",
-    "step-025999.ckpt",
-    "step-027999.ckpt",
-    "step-029999.ckpt",
-    "step-031999.ckpt",
-    "step-033999.ckpt",
-    "step-035999.ckpt",
-    "step-037999.ckpt",
-    "step-039999.ckpt",
-    "step-041999.ckpt",
-    "step-043999.ckpt",
-    "step-045999.ckpt",
-    "step-047999.ckpt",
-    "step-049999.ckpt"
-]
+CHECKPOINT_DIR = "./checkpoints/simple_prompt/"
 
 
 def to_device(batch: dict, device: torch.device):
@@ -77,7 +50,7 @@ def main():
     subset = Subset(dataset, indices)
     dataloader = DataLoader(subset, batch_size=1, shuffle=False, num_workers=0)
 
-    for ckpt in CHECKPOINTS:
+    for ckpt in os.listdir(CHECKPOINT_DIR):
         # ----------
         # Load Model
         # ----------

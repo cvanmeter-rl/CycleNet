@@ -29,6 +29,11 @@ class TrainDataset(Dataset):
             "grid_g05_low_v1",
             "grid_g05_high_v1",
         ]
+        self.real_dataset_names = [
+            "DFC19_OMA",
+            "DFC19_JAX",
+            
+        ]
         # -- Missing images to ignore
         self.missing_files = set([
             '/mnt/project/data/grid_g05_mid_v2/opt/0000449416-1.tif', 
