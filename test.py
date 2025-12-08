@@ -51,6 +51,9 @@ def main():
     dataloader = DataLoader(subset, batch_size=1, shuffle=False, num_workers=0)
 
     for ckpt in os.listdir(CHECKPOINT_DIR):
+        if ckpt == "last.ckpt":
+            continue
+        
         # ----------
         # Load Model
         # ----------
