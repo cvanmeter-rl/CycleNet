@@ -15,7 +15,7 @@ torch.manual_seed(21)
 
 # Configs
 resume_path = './models/cycle_sd21_ini.ckpt'
-model_name = 'simple_prompt'
+model_name = 'real_long_prompt'
 log_path = f'./logs/{model_name}'
 batch_size_per_gpu = 4
 gpus = 1
@@ -41,6 +41,7 @@ if __name__ == "__main__":
 
     print("Creating Trainer...")
     # logger = ImageLogger(batch_frequency=logger_freq, every_n_train_steps=logger_freq)
+    # logger = TextLogger(log_every_n_steps=logger_freq)
     checkpoint_cb = ModelCheckpoint(
         dirpath=f"./checkpoints/{model_name}/",
         filename="step-{step:06d}",
@@ -51,13 +52,12 @@ if __name__ == "__main__":
         auto_insert_metric_name=False,
         save_weights_only=True
     )
-    logger = TextLogger(log_every_n_steps=logger_freq)
 
     trainer = pl.Trainer(
         accelerator="gpu", 
         devices=gpus, 
         precision=16, 
-        callbacks=[checkpoint_cb, logger], 
+        callbacks=[checkpoint_cb], 
         default_root_dir=log_path, 
         max_steps=50000
     )
