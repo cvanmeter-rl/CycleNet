@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
     print("Creating Trainer...")
     # logger = ImageLogger(batch_frequency=logger_freq, every_n_train_steps=logger_freq)
-    # logger = TextLogger(log_every_n_steps=logger_freq)
+    logger = TextLogger(log_every_n_steps=logger_freq)
     checkpoint_cb = ModelCheckpoint(
         dirpath=f"./checkpoints/{model_name}/",
         filename="step-{step:06d}",
@@ -56,7 +56,7 @@ if __name__ == "__main__":
         accelerator="gpu", 
         devices=gpus, 
         precision=16, 
-        callbacks=[checkpoint_cb], 
+        callbacks=[checkpoint_cb, logger], 
         default_root_dir=log_path, 
         max_steps=50000
     )
