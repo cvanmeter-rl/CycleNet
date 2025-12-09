@@ -10,7 +10,7 @@ class RealAndSynthethicTrainDataset(Dataset):
         self.data_dir = Path('/mnt/synrs3d/SynRS3D/data/')
         #self.source = 'synthetic satellite map render, flat colors, minimal texture, clean computer-generated style, no haze, no noise, no shadows'
         #self.target = 'realistic high-resolution satellite image, natural colors, rich textures, realistic lighting, sensor noise, atmospheric haze, soft shadows'
-        self.source = 'synthethic satellite image'
+        self.source = 'synthetic satellite image'
         self.target = 'real satellite image'
         self.synthetic_dataset_names = [
         "terrain_g05_mid_v1",
