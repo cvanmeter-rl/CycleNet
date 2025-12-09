@@ -18,13 +18,13 @@ np.random.seed(seed)
 torch.manual_seed(seed)
 
 # Configs
-model_name = 'real_long_prompt'
+model_name = 'real_disc_05'
 run_dir = Path('./runs') / model_name
 log_dir = run_dir / 'logs'
 ckpt_dir = run_dir / 'checkpoints'
 
 resume_path = './models/cycle_sd21_ini.ckpt'
-model_config = './models/cycle_v21.yaml'
+model_config = './models/cycle_v21_model.yaml'
 batch_size_per_gpu = 4
 gpus = 1
 logger_freq = 50
@@ -45,9 +45,9 @@ def save_config():
     config["run"] = {
         "info": {
             "model_name": model_name,
-            "run_dir": run_dir,
-            "log_dir": log_dir,
-            "ckpt_dir": ckpt_dir
+            "run_dir": str(run_dir),
+            "log_dir": str(log_dir),
+            "ckpt_dir": str(ckpt_dir)
         },
         "params": {
             "resume_path": resume_path,
@@ -87,8 +87,8 @@ if __name__ == "__main__":
     # Create Checkpoints / Trainer
     # ----------
     print("Creating Trainer...")
-    # logger = ImageLogger(batch_frequency=logger_freq, every_n_train_steps=logger_freq)
     logger = TextLogger(log_every_n_steps=logger_freq)
+
     checkpoint_cb = ModelCheckpoint(
         dirpath=ckpt_dir,
         filename="step-{step:06d}",
