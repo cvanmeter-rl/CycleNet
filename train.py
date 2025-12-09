@@ -62,18 +62,30 @@ def save_config():
 
 
 if __name__ == "__main__":
-    # Misc
+    # ----------
+    # Save Model / Run Config
+    # ----------
+    save_config()
+
+    # ----------
+    # Load TrainDataset
+    # ----------
     print("Loading TrainDataset / DataLoader...")
     dataset = TrainDataset()
     dataloader = DataLoader(dataset, num_workers=0, batch_size=batch_size_per_gpu, shuffle=True)
 
-    # First use cpu to load models. Pytorch Lightning will automatically move it to GPUs.
+    # ----------
+    # Load Model
+    # ----------
     model = create_model(model_config).cpu()
     model.load_state_dict(load_state_dict(resume_path, location='cpu'))
     model.learning_rate = learning_rate
     model.sd_locked = sd_locked
     model.only_mid_control = only_mid_control
 
+    # ----------
+    # Create Checkpoints / Trainer
+    # ----------
     print("Creating Trainer...")
     # logger = ImageLogger(batch_frequency=logger_freq, every_n_train_steps=logger_freq)
     logger = TextLogger(log_every_n_steps=logger_freq)
@@ -96,5 +108,9 @@ if __name__ == "__main__":
         default_root_dir=log_dir, 
         max_steps=50000
     )
+
+    # ----------
+    # Train Model
+    # ----------
     print("Training CycleNet!")
     trainer.fit(model, dataloader)
