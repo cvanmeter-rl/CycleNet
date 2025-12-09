@@ -97,7 +97,7 @@ class TrainDataset(Dataset):
         # GeoNRW
         # ----------
         d = self.data_dir / "real" / "geonrw" / "data"
-        d_dirs = os.listdir(d)
+        d_dirs = [d_dir for d_dir in os.listdir(d) if os.path.isdir(d / d_dir)]
 
         for d_dir in d_dirs:
             filenames = [f for f in os.listdir(d / d_dir) if f.endswith(".jp2")]

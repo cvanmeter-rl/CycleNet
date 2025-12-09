@@ -26,6 +26,10 @@ only_mid_control = False
 
 
 if __name__ == "__main__":
+    # Misc
+    print("Loading TrainDataset / DataLoader...")
+    dataset = TrainDataset()
+    dataloader = DataLoader(dataset, num_workers=0, batch_size=batch_size_per_gpu, shuffle=True)
 
     # First use cpu to load models. Pytorch Lightning will automatically move it to GPUs.
     model = create_model('./models/cycle_v21.yaml').cpu()
@@ -33,11 +37,6 @@ if __name__ == "__main__":
     model.learning_rate = learning_rate
     model.sd_locked = sd_locked
     model.only_mid_control = only_mid_control
-
-    # Misc
-    print("Loading TrainDataset / DataLoader...")
-    dataset = TrainDataset()
-    dataloader = DataLoader(dataset, num_workers=0, batch_size=batch_size_per_gpu, shuffle=True)
 
     print("Creating Trainer...")
     # logger = ImageLogger(batch_frequency=logger_freq, every_n_train_steps=logger_freq)
