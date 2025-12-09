@@ -16,21 +16,16 @@ FILENAMES = [
 
 #NUM_IMAGES = 16  # how many images to test on
 BATCH_SIZE = 1
-OUTDIR = "./single_simple_prompt_Both_False_bs4"
+OUTDIR = "./single_simple_prompt_Both_False_bs4_syn_and_real_data"
 
 CONFIG_PATH = "./models/cycle_v21.yaml"
 #CKPT_PATH = "./models/cycle_sd21_single_simple_prompt_frozenSD_allControl.ckpt"
 ckpt_paths = [
-'stepstep=009999.ckpt',
-'stepstep=019999.ckpt',
-'stepstep=029999.ckpt',
-'stepstep=039999.ckpt',
-'stepstep=049999.ckpt',
-'stepstep=004999.ckpt',
-'stepstep=014999.ckpt',
-'stepstep=024999.ckpt',
-'stepstep=034999.ckpt',
-'stepstep=044999.ckpt',
+'step=004999.ckpt',
+'step=009999.ckpt',
+'step=014999.ckpt',
+'step=019999.ckpt',
+'step=024999.ckpt',
 ]
 
 
@@ -63,7 +58,7 @@ def main():
         # Load model
         print(f"Loading model from {CONFIG_PATH} and {ckpt}")
         model = create_model(CONFIG_PATH).to(device)
-        state = load_state_dict(f'/mnt/cyclenet/CycleNet/checkpoints/models/single_simple_prompt_Both_False_bs4/{ckpt}', location="cpu")
+        state = load_state_dict(f'/mnt/cyclenet/CycleNet/checkpoints/models/single_simple_prompt_Both_False_bs4_syn_and_real_data/{ckpt}', location="cpu")
         model.load_state_dict(state)
         model.eval()
         
