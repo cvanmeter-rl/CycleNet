@@ -19,7 +19,7 @@ model:
     only_mid_control: False
     recon_weight: 1.0
     cycle_weight: 0.01
-    disc_weight: 0.1
+    disc_weight: 0.5
     disc_mode: eps
     consis_weight: 0.1
 
