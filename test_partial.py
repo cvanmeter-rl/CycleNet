@@ -28,12 +28,27 @@ ckpt_paths = [
 'step=024999.ckpt',
 ]
 
+def get_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--dataset_type",type=str,required=True,help="Name of dataset being used", default="synthethic_only")
+
+    return parser.parse_args()
+
+
 
 def main():
+    args = get_args()
+    print("collected args")
+    
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     os.makedirs(OUTDIR, exist_ok=True)
     
-    dataset = TrainDataset()
+    if args.dataset_type == "synthethic_only":
+        dataset = TrainDataset()
+    elif args.dataset_type == "real_and_synthetic":
+        dataset = RealAndSynthethicTrainDataset()
+    else:
+        raise ValueError(f"Invalid dataset entered: {args.dataset}")
 
     wanted = set(FILENAMES)
     indices = []
