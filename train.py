@@ -18,7 +18,7 @@ np.random.seed(seed)
 torch.manual_seed(seed)
 
 # Configs
-model_name = 'real_disc_05_consis_001'
+model_name = 'real_disc1'
 run_dir = Path('./runs') / model_name
 log_dir = run_dir / 'logs'
 ckpt_dir = run_dir / 'checkpoints'
