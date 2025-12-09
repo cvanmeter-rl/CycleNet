@@ -43,7 +43,7 @@ if __name__ == "__main__":
     dirpath=f"./checkpoints/models/longer_prompt_Both_False_bs4_syn_and_real_data/",
     filename="step{step:06d}",
     save_top_k=-1,
-    every_n_train_steps=1000,
+    every_n_train_steps=2500,
     save_last=True,
     monitor=None,
     )
