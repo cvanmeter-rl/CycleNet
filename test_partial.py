@@ -6,6 +6,8 @@ from torch.utils.data import DataLoader, Subset
 from torchvision.utils import save_image
 
 from dataset import TrainDataset
+from real_and_synthetic_dataset import RealAndSynthethicTrainDataset
+
 from cycleNet.model import create_model, load_state_dict
 
 import argparse
