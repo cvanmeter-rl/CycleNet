@@ -48,6 +48,7 @@ def main():
     # Copy to output dir
     # ----------
     output_dir = Path("/mnt/project/data/real/all/")
+    os.makedirs(output_dir, exist_ok=True)
     for filepath in real_filepaths:
         filename = Path(filepath).name
         shutil.copy(filepath, output_dir / filename)
