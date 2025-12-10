@@ -14,7 +14,7 @@ FILENAMES = set([
     "0000000001-1_1",
 ])
 CONFIG_PATH = "./models/custom/real_disc05.yaml"
-CHECKPOINT_DIR = "./runs/real_disc05/checkpoints/"
+CHECKPOINT_DIR = "./runs/real_disc_05/checkpoints/"
 
 
 def to_device(batch: dict, device: torch.device):
