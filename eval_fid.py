@@ -5,7 +5,7 @@ SIM_DIR = "/mnt/project/data/sim/all"
 
 
 def main():
-    score = fid.compute_fid(REAL_DIR, SIM_DIR)
+    score = fid.compute_fid(REAL_DIR, SIM_DIR, num_workers=0)
     print(f"FID Score: {score}")
 
 if __name__ == "__main__":
