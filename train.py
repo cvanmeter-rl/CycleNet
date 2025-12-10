@@ -36,13 +36,14 @@ only_mid_control = False
 def save_config():
     config_dir = run_dir / 'configs'
     os.makedirs(config_dir, exist_ok=True)
-
+    
     # ----------
     # Save Model / Run Config
     # ----------
     config = OmegaConf.load(model_config)
+    OmegaConf.save(config, config_dir / 'cycle_v21_model.yaml')
 
-    config["run"] = {
+    run_config = OmegaConf.create({
         "info": {
             "model_name": model_name,
             "run_dir": str(run_dir),
@@ -56,9 +57,8 @@ def save_config():
             "only_mid_control": only_mid_control,
             "seed": seed
         }
-    }
-
-    OmegaConf.save(config, config_dir / 'config.yaml')
+    })
+    OmegaConf.save(run_config, config_dir / 'run_config.yaml')
 
 
 if __name__ == "__main__":
