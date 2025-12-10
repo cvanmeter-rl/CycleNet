@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: cyclenet-train-a6000
+  name: cyclenet-train-a6000-disc1
 spec:
   backoffLimit: 0
   template:

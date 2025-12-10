@@ -7,14 +7,14 @@ from torchvision.utils import save_image
 from dataset import TrainDataset
 from cycleNet.model import create_model, load_state_dict
 
-FIGS_DIR = "./figs/simple_prompt"
+FIGS_DIR = "./figs/real"
 FILENAMES = set([
     "0000000000-1",
     "0000000001-1",
     "0000000001-1_1",
 ])
 CONFIG_PATH = "./models/cycle_v21.yaml"
-CHECKPOINT_DIR = "./checkpoints/simple_prompt/"
+CHECKPOINT_DIR = "./runs/real/checkpoints/"
 
 
 def to_device(batch: dict, device: torch.device):
