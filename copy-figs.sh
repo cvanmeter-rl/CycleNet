@@ -2,8 +2,8 @@
 set -euo pipefail
 
 POD_NAME="cyclenet-pod"
-LOCAL_DIR="./figs/real"
-REMOTE_DIR="/mnt/project/CycleNet/figs/real"
+LOCAL_DIR="./figs/real_disc05"
+REMOTE_DIR="/mnt/project/CycleNet/figs/real_disc05"
 
 kubectl exec "$POD_NAME" -- find "$REMOTE_DIR" -type f -print0 | \
 while IFS= read -r -d '' remote_path; do

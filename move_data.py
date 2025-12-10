@@ -49,7 +49,7 @@ def main():
     # ----------
     # Copy to output dir
     # ----------
-    num_samples = 2
+    num_samples = 1
     filepaths = random.sample(real_filepaths, num_samples)
 
     output_dir = Path("/mnt/project/data/real/all/")

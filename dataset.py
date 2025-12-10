@@ -6,7 +6,7 @@ import torch
 from pathlib import Path
 
 class TrainDataset(Dataset):
-    def __init__(self):
+    def __init__(self, include_real: bool=True):
         self.data = []
         self.data_dir = Path("/mnt/project/data/")
         self.source = "synthetic satellite map render, flat colors, minimal texture, clean computer-generated style, no haze, no noise, no shadows"
@@ -67,46 +67,47 @@ class TrainDataset(Dataset):
 
         print(f"# Synthetic: {num_synthetic}")
 
-        # ----------
-        # DFC18
-        # ----------
-        num_real = 0
+        if include_real:
+            # ----------
+            # DFC18
+            # ----------
+            num_real = 0
 
-        train_list = self.data_dir / "real" / "DFC18" / "DFC18" / "train.txt"
+            train_list = self.data_dir / "real" / "DFC18" / "DFC18" / "train.txt"
 
-        with open(train_list, "r") as f:
-            image_list = [ln.strip() for ln in f if ln.strip()]
+            with open(train_list, "r") as f:
+                image_list = [ln.strip() for ln in f if ln.strip()]
 
-        for image_name in image_list:
-            img_filepath = self.data_dir / "real/DFC18/DFC18" / "opt" / f"{image_name}.tif"
-            self.data.append({"image": img_filepath, "source": self.target, "target": self.source})
-            num_real += 1
-
-        # ----------
-        # DFC19
-        # ----------
-        d = self.data_dir / "real" / "DFC19" / "opt"
-        filenames = os.listdir(d)
-
-        for filename in filenames:
-            img_filepath = d / filename
-            self.data.append({"image": img_filepath, "source": self.target, "target": self.source})
-            num_real += 1
-
-        # ----------
-        # GeoNRW
-        # ----------
-        d = self.data_dir / "real" / "geonrw" / "data"
-        d_dirs = [d_dir for d_dir in os.listdir(d) if os.path.isdir(d / d_dir)]
-
-        for d_dir in d_dirs:
-            filenames = [f for f in os.listdir(d / d_dir) if f.endswith(".jp2")]
-            for filename in filenames:
-                img_filepath = d / d_dir / filename
+            for image_name in image_list:
+                img_filepath = self.data_dir / "real/DFC18/DFC18" / "opt" / f"{image_name}.tif"
                 self.data.append({"image": img_filepath, "source": self.target, "target": self.source})
                 num_real += 1
 
-        print(f"# Real: {num_real}")
+            # ----------
+            # DFC19
+            # ----------
+            d = self.data_dir / "real" / "DFC19" / "opt"
+            filenames = os.listdir(d)
+
+            for filename in filenames:
+                img_filepath = d / filename
+                self.data.append({"image": img_filepath, "source": self.target, "target": self.source})
+                num_real += 1
+
+            # ----------
+            # GeoNRW
+            # ----------
+            d = self.data_dir / "real" / "geonrw" / "data"
+            d_dirs = [d_dir for d_dir in os.listdir(d) if os.path.isdir(d / d_dir)]
+
+            for d_dir in d_dirs:
+                filenames = [f for f in os.listdir(d / d_dir) if f.endswith(".jp2")]
+                for filename in filenames:
+                    img_filepath = d / d_dir / filename
+                    self.data.append({"image": img_filepath, "source": self.target, "target": self.source})
+                    num_real += 1
+
+            print(f"# Real: {num_real}")
 
     def __len__(self):
         return len(self.data)

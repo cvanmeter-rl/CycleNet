@@ -8,13 +8,9 @@ from dataset import TrainDataset
 from cycleNet.model import create_model, load_state_dict
 
 REAL_DIR = "/mnt/project/data/real/all"
-FILENAMES = set([
-    "0000000000-1",
-    "0000000001-1",
-    "0000000001-1_1",
-])
+SIM_DIR = "/mnt/project/data/sim/all"
 CONFIG_PATH = "./models/custom/real.yaml"
-CHECKPOINT_DIR = "./runs/real/checkpoints/"
+CKPT_PATH = "./runs/real/checkpoints/step-009999.ckpt"
 
 
 def to_device(batch: dict, device: torch.device):
@@ -39,73 +35,51 @@ def main():
     # Load TrainDataset test images
     # ----------
     print("Loading dataset...")
-    dataset = TrainDataset()
+    sim_dataset = TrainDataset(include_real=False)
 
-    indices = []
-    for i, item in enumerate(dataset.data):
-        stem = Path(item["image"]).stem  # e.g. "0002002383-1"
-        if stem in FILENAMES:
-            indices.append(i)
-
-    subset = Subset(dataset, indices)
+    indices = torch.randperm(len(sim_dataset))[:2048]
+    subset = Subset(sim_dataset, indices)
+    
     dataloader = DataLoader(subset, batch_size=1, shuffle=False, num_workers=0)
 
-    for ckpt in os.listdir(CHECKPOINT_DIR):
-        if ckpt == "last.ckpt":
-            continue
-        
-        # ----------
-        # Load Model
-        # ----------
-        print(f"\n---- Testing {ckpt} ----")
+    # ----------
+    # Load Model
+    # ----------
+    print(f"\n---- Testing {CKPT_PATH} ----")
 
-        print("Loading model...")
-        ckpt_path = os.path.join(CHECKPOINT_DIR, ckpt)
-        state_dict = load_state_dict(ckpt_path, location="cpu")
-        model.load_state_dict(state_dict, strict=False)
+    print("Loading model...")
+    state_dict = load_state_dict(CKPT_PATH, location="cpu")
+    model.load_state_dict(state_dict, strict=False)
 
-        # ----------
-        # Log Images
-        # ----------
-        print("Testing model...")
+    # ----------
+    # Log Images
+    # ----------
+    print("Testing model...")
+    os.makedirs(SIM_DIR, exist_ok=True)
 
-        cfg = [1.00,2.00,3.00,4.00,5.00,10.00,15.00]
+    cfg = 1.0
 
-        with torch.no_grad():
-            for i, batch in enumerate(dataloader):
-                batch = to_device(batch, device)
+    with torch.no_grad():
+        for i, batch in enumerate(dataloader):
+            batch = to_device(batch, device)
 
-                for c in cfg:
-                    ckpt_name = str(Path(ckpt).stem)
-                    out_dir = os.path.join(FIGS_DIR, ckpt_name, str(c))
-                    os.makedirs(out_dir, exist_ok=True)
+            logs = model.log_images(
+                batch,
+                split="test",
+                unconditional_guidance_scale=cfg,
+                sample=True
+            )
+            
+            x = logs["samples"]
+            x = x.float().clamp(-1.0, 1.0)
+            x = (x + 1.0) / 2.0
 
-                    if c == 1.00:
-                        logs = model.log_images(
-                            batch, 
-                            split="test", 
-                            unconditional_guidance_scale=c,
-                            sample=True
-                        )
-                        key = 'samples'
-                    else:
-                        logs = model.log_images(
-                            batch, 
-                            split="test", 
-                            unconditional_guidance_scale=c
-                        )
-                        key = f"samples_cfg_scale_{c:.2f}"
+            stem = Path(sim_dataset.data[indices[i]]["image"]).stem
+            out_path = Path(SIM_DIR) / f"{stem}_{cfg}.tif"
+            save_image(x[0].cpu(), out_path)
+            print(f"Saved {out_path}")
 
-                    x = logs[key]
-                    x = x.float().clamp(-1.0, 1.0)
-                    x = (x + 1.0) / 2.0
-
-                    stem = Path(dataset.data[indices[i]]["image"]).stem
-                    out_path = Path(out_dir) / f"{stem}_{c}.tif"
-                    save_image(x[0].cpu(), out_path)
-                    print(f"Saved {out_path}")
-
-        print("Done.")
+    print("Done.")
 
 
 if __name__ == "__main__":
