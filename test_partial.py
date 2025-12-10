@@ -32,6 +32,9 @@ ckpt_paths = [
 'step=024999.ckpt',
 'step=029999.ckpt',
 'step=034999.ckpt',
+'step=039999.ckpt',
+'step=044999.ckpt',
+'step=049999.ckpt',
 ]
 
 def get_args():
