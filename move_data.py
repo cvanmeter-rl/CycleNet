@@ -1,4 +1,5 @@
 import os
+import random
 import shutil
 from pathlib import Path
 
@@ -47,9 +48,12 @@ def main():
     # ----------
     # Copy to output dir
     # ----------
+    num_samples = 2048
+    filepaths = random.sample(real_filepaths, num_samples)
+
     output_dir = Path("/mnt/project/data/real/all/")
     os.makedirs(output_dir, exist_ok=True)
-    for filepath in real_filepaths:
+    for filepath in filepaths:
         filename = Path(filepath).name
         shutil.copy(filepath, output_dir / filename)
 

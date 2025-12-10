@@ -7,7 +7,7 @@ from torchvision.utils import save_image
 from dataset import TrainDataset
 from cycleNet.model import create_model, load_state_dict
 
-FIGS_DIR = "./figs/real"
+REAL_DIR = "/mnt/project/data/real/all"
 FILENAMES = set([
     "0000000000-1",
     "0000000001-1",
