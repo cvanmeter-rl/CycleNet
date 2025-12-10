@@ -2,6 +2,7 @@ import os
 import random
 import shutil
 from pathlib import Path
+from tqdm import tqdm
 
 
 def main():
@@ -53,7 +54,7 @@ def main():
 
     output_dir = Path("/mnt/project/data/real/all/")
     os.makedirs(output_dir, exist_ok=True)
-    for filepath in filepaths:
+    for filepath in tqdm(filepaths):
         filename = Path(filepath).name
         shutil.copy(filepath, output_dir / filename)
 
