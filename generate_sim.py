@@ -8,9 +8,9 @@ from tqdm import tqdm
 from dataset import TrainDataset
 from cycleNet.model import create_model, load_state_dict
 
-SIM_DIR = "/mnt/project/data/sim/real/"
-CONFIG_PATH = "./models/custom/real.yaml"
-CKPT_PATH = "./runs/real/checkpoints/step-019999.ckpt"
+SIM_DIR = "/mnt/project/data/sim/model_1/"
+CONFIG_PATH = "./models/cycle_v21.yaml"
+CKPT_PATH = "./checkpoints/model_1/step-019999.ckpt"
 
 # Define batch size here
 BATCH_SIZE = 4
