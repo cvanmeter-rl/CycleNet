@@ -29,7 +29,7 @@ def main():
   
   for d in dataset.synthetic_dataset_names:
     p = output_path / d / 'opt' 
-    os.makedirs(p,exist=ok=True)
+    os.makedirs(p,exist_ok=True)
     print(f'made {p} directory')
 
   print('loading model')
