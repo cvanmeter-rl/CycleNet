@@ -13,7 +13,7 @@ CONFIG_PATH = "./models/custom/real.yaml"
 CKPT_PATH = "./runs/real/checkpoints/step-019999.ckpt"
 
 # Define batch size here
-BATCH_SIZE = 8
+BATCH_SIZE = 4
 
 def to_device(batch: dict, device: torch.device):
     for k, v in batch.items():
