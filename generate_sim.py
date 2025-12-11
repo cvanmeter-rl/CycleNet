@@ -3,6 +3,7 @@ from pathlib import Path
 import torch
 from torch.utils.data import DataLoader, Subset
 from torchvision.utils import save_image
+from tqdm import tqdm
 
 from dataset import TrainDataset
 from cycleNet.model import create_model, load_state_dict
@@ -64,7 +65,7 @@ def main():
 
     with torch.no_grad():
         # Enumerate gives us the batch_idx (0, 1, 2...)
-        for batch_idx, batch in enumerate(dataloader):
+        for batch_idx, batch in tqdm(enumerate(dataloader)):
             batch = to_device(batch, device)
 
             logs = model.log_images(
