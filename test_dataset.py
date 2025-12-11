@@ -4,7 +4,7 @@ from torch.utils.data import Dataset
 import torch
 from pathlib import Path
 
-class TrainDataset(Dataset):
+class TestDataset(Dataset):
     def __init__(self):
         self.data = []
         self.data_dir = Path('/mnt/synrs3d/SynRS3D/data/')
@@ -61,9 +61,4 @@ class TrainDataset(Dataset):
 
         return dict(jpg=image, source=item['source'], txt=item['target']), path
         
-
-if __name__ == "__main__":
-    ds = TrainDataset()
-    print(len(ds))
-    print(ds.data[:5])
                 
