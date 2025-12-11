@@ -7,11 +7,12 @@ from torchvision.utils import save_image
 from dataset import TrainDataset
 from cycleNet.model import create_model, load_state_dict
 
-REAL_DIR = "/mnt/project/data/real/all"
-SIM_DIR = "/mnt/project/data/sim/all"
+SIM_DIR = "/mnt/project/data/sim/real/"
 CONFIG_PATH = "./models/custom/real.yaml"
-CKPT_PATH = "./runs/real/checkpoints/step-009999.ckpt"
+CKPT_PATH = "./runs/real/checkpoints/step-019999.ckpt"
 
+# Define batch size here
+BATCH_SIZE = 8
 
 def to_device(batch: dict, device: torch.device):
     for k, v in batch.items():
@@ -37,10 +38,12 @@ def main():
     print("Loading dataset...")
     sim_dataset = TrainDataset(include_real=False)
 
+    # INDICES are stored here as a torch tensor
     indices = torch.randperm(len(sim_dataset))[:2048]
     subset = Subset(sim_dataset, indices)
     
-    dataloader = DataLoader(subset, batch_size=1, shuffle=False, num_workers=0)
+    # Enable shuffle=False so our index tracking remains deterministic relative to the subset
+    dataloader = DataLoader(subset, batch_size=BATCH_SIZE, shuffle=False, num_workers=0)
 
     # ----------
     # Load Model
@@ -54,13 +57,14 @@ def main():
     # ----------
     # Log Images
     # ----------
-    print("Testing model...")
+    print(f"Testing model with Batch Size {BATCH_SIZE}...")
     os.makedirs(SIM_DIR, exist_ok=True)
 
     cfg = 1.0
 
     with torch.no_grad():
-        for i, batch in enumerate(dataloader):
+        # Enumerate gives us the batch_idx (0, 1, 2...)
+        for batch_idx, batch in enumerate(dataloader):
             batch = to_device(batch, device)
 
             logs = model.log_images(
@@ -70,14 +74,35 @@ def main():
                 sample=True
             )
             
+            # x is now shape [BATCH_SIZE, C, H, W]
             x = logs["samples"]
             x = x.float().clamp(-1.0, 1.0)
             x = (x + 1.0) / 2.0
+            
+            # Move entire batch to CPU once to avoid multiple GPU-CPU transfers inside the loop
+            x_cpu = x.cpu()
 
-            stem = Path(sim_dataset.data[indices[i]]["image"]).stem
-            out_path = Path(SIM_DIR) / f"{stem}_{cfg}.tif"
-            save_image(x[0].cpu(), out_path)
-            print(f"Saved {out_path}")
+            # Calculate where this batch starts in the global indices list
+            batch_start_idx = batch_idx * BATCH_SIZE
+
+            # Loop through the images within this specific batch
+            # We use x.size(0) because the very last batch might be smaller than BATCH_SIZE
+            for k in range(x.size(0)):
+                
+                # 1. Get the global index for this specific image
+                global_idx = batch_start_idx + k
+                
+                # 2. Retrieve the original dataset index from your random permutation
+                # .item() converts the 0-d tensor to a standard Python integer
+                original_dataset_idx = indices[global_idx].item()
+                
+                # 3. Get the filename using the original index
+                stem = Path(sim_dataset.data[original_dataset_idx]["image"]).stem
+                out_path = Path(SIM_DIR) / f"{stem}_{cfg}.tif"
+                
+                # 4. Save the single image k
+                save_image(x_cpu[k], out_path)
+                print(f"Saved {out_path}")
 
     print("Done.")
 
