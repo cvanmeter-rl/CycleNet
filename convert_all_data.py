@@ -68,6 +68,9 @@ def main():
         print(f'Saved at {output}')
 
   print('Done')
+
+if __name__ == "__main__":
+    main() 
         
       
   
