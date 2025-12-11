@@ -7,14 +7,14 @@ from torchvision.utils import save_image
 from dataset import TrainDataset
 from cycleNet.model import create_model, load_state_dict
 
-FIGS_DIR = "./figs/real_disc05"
+FIGS_DIR = "./figs/real"
 FILENAMES = set([
     "0000000000-1",
     "0000000001-1",
     "0000000001-1_1",
 ])
-CONFIG_PATH = "./models/custom/real_disc05.yaml"
-CHECKPOINT_DIR = "./runs/real_disc_05/checkpoints/"
+CONFIG_PATH = "./models/custom/real.yaml"
+CHECKPOINT_DIR = "./runs/real/checkpoints/"
 CHECKPOINTS = [
     "step-009999.ckpt",
     "step-011999.ckpt",
@@ -74,7 +74,7 @@ def main():
         # ----------
         print("Testing model...")
 
-        cfg = [1.00,2.00,3.00,4.00,5.00,10.00,15.00]
+        cfg = [1.00,2.00,3.00,4.00,5.00]
 
         with torch.no_grad():
             for i, batch in enumerate(dataloader):
