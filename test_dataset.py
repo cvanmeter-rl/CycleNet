@@ -59,6 +59,6 @@ class TestDataset(Dataset):
         #HWC -> CHW
         #image = torch.from_numpy(image).permute(2,0,1)
 
-        return dict(jpg=image, source=item['source'], txt=item['target']), path
+        return dict(jpg=image, source=item['source'], txt=item['target'], img_path=path)
         
                 
