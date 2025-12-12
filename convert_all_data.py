@@ -42,17 +42,19 @@ def main():
   cfg = 1.00
   with torch.no_grad():
     for idx, batch in enumerate(dataloader):
-      b, path = batch
+      paths = batch['img_path']
     
       for k, v in batch.items():
         if isinstance(v, torch.Tensor):
           b[k] = v.to(device)
+          
+      model_batch = {k:v for k,v in batch.items() if k != 'img_path'}
       
       if cfg == 1.00:
-        logs = model.log_images(batch, split="test", unconditional_guidance_scale=c, sample=True)
+        logs = model.log_images(model_batch, split="test", unconditional_guidance_scale=c, sample=True)
         key = 'samples'
       else:
-        logs = model.log_images(batch, split="test", unconditional_guidance_scale=c)
+        logs = model.log_images(model_batch, split="test", unconditional_guidance_scale=c)
         key = f'samples_cfg_scale_{c:.2f}'
         
       x = logs[key]
@@ -60,7 +62,7 @@ def main():
       x = (x + 1.0) / 2.0
 
       for i in range(x.size(0)):
-        p = Path(path[i])
+        p = Path(paths[i])
         dataset_name = p.parent.parent.name
         image_name = p.stem
         output = output_path / dataset_name / 'opt' / f'{image_name}.tif'
