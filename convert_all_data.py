@@ -51,11 +51,11 @@ def main():
       model_batch = {k:v for k,v in batch.items() if k != 'img_path'}
       
       if cfg == 1.00:
-        logs = model.log_images(model_batch, split="test", unconditional_guidance_scale=c, sample=True)
+        logs = model.log_images(model_batch, split="test", unconditional_guidance_scale=cfg, sample=True)
         key = 'samples'
       else:
-        logs = model.log_images(model_batch, split="test", unconditional_guidance_scale=c)
-        key = f'samples_cfg_scale_{c:.2f}'
+        logs = model.log_images(model_batch, split="test", unconditional_guidance_scale=cfg)
+        key = f'samples_cfg_scale_{cfg:.2f}'
         
       x = logs[key]
       x = x.float().clamp(-1.0, 1.0)
