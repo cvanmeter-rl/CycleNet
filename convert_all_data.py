@@ -46,7 +46,7 @@ def main():
     
       for k, v in batch.items():
         if isinstance(v, torch.Tensor):
-          b[k] = v.to(device)
+          batch[k] = v.to(device)
           
       model_batch = {k:v for k,v in batch.items() if k != 'img_path'}
       
