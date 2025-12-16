@@ -20,21 +20,21 @@ FILENAMES = [
 
 #NUM_IMAGES = 16  # how many images to test on
 BATCH_SIZE = 1
-OUTDIR = "./single_simple_prompt_Both_False_bs4_syn_and_real_data"
+OUTDIR = "./test_partial/longer_prompt_Both_False_bs4_syn_and_real_data"
 
 CONFIG_PATH = "./models/cycle_v21.yaml"
 #CKPT_PATH = "./models/cycle_sd21_single_simple_prompt_frozenSD_allControl.ckpt"
 ckpt_paths = [
-'step=004999.ckpt',
-'step=009999.ckpt',
-'step=014999.ckpt',
-'step=019999.ckpt',
-'step=024999.ckpt',
-'step=029999.ckpt',
-'step=034999.ckpt',
-'step=039999.ckpt',
-'step=044999.ckpt',
-'step=049999.ckpt',
+'step=004999-v1.ckpt',
+'step=009999-v1.ckpt',
+'step=014999-v1.ckpt',
+'step=019999-v1.ckpt',
+'step=024999-v1.ckpt',
+'step=029999-v1.ckpt',
+'step=034999-v1.ckpt',
+'step=039999-v1.ckpt',
+'step=044999-v1.ckpt',
+'step=049999-v1.ckpt',
 ]
 
 def get_args():
