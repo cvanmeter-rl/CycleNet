@@ -14,7 +14,7 @@ import argparse
 #NUM_IMAGES = 16  # how many images to test on
 BATCH_SIZE = 4
 CONFIG_PATH = "./models/cycle_v21.yaml"
-ckpt_path = Path('/mnt/cyclenet/CycleNet/checkpoints/models/single_simple_prompt_Both_False_bs4_syn_and_real_data/step=044999.ckpt')
+ckpt_path = Path('/mnt/cyclenet/CycleNet/checkpoints/models/single_simple_prompt_Both_False_bs4/step=049999.ckpt')
 output_path = Path(f'/mnt/cyclenet/CycleNet/full_test/{ckpt_path.parent.name}')
 
 def main():
