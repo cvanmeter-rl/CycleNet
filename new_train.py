@@ -17,14 +17,14 @@ np.random.seed(21)
 torch.manual_seed(21)
 
 # Configs
-resume_path = './models/single_simple_prompt_Both_False_bs4_syn_and_real_data.ckpt'
+resume_path = './models/longer_prompt_mid_True_syn_and_real_data.ckpt'
 log_path = './logs'
 batch_size_per_gpu = 4
 gpus = 1
 logger_freq = 300
 learning_rate = 1e-5
 sd_locked = False
-only_mid_control = False
+only_mid_control = True
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -57,10 +57,10 @@ if __name__ == "__main__":
 
     #logger = ImageLogger(batch_frequency=logger_freq, every_n_train_steps=logger_freq)
     checkpoint_cb = ModelCheckpoint(
-    dirpath=f"./checkpoints/models/single_simple_prompt_Both_False_bs4_syn_and_real_data/",
+    dirpath=f"./checkpoints/models/longer_prompt_mid_True_syn_and_real_data/",
     filename="{step:06d}",
     save_top_k=-1,
-    every_n_train_steps=5000,
+    every_n_train_steps=2500,
     save_last=True,
     monitor=None,
     save_weights_only=True
