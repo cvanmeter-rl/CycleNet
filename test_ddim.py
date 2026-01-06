@@ -43,7 +43,7 @@ def main():
     print("collected args")
     model_folder_name = args.model_name
     BATCH_SIZE = 1
-    OUTDIR = f"./test_partial/{model_folder_name}"
+    OUTDIR = f"./test_ddim/{model_folder_name}"
     CONFIG_PATH = "./models/cycle_v21.yaml"
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
