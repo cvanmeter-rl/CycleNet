@@ -79,7 +79,7 @@ def main():
         # Load model
         print(f"Loading model from {CONFIG_PATH} and {ckpt}")
         model = create_model(CONFIG_PATH).to(device)
-        state = load_state_dict(f'/mnt/cyclenet/CycleNet/checkpoints/models/{model_folder_name}/{ckpt}', location="cpu")
+        state = load_state_dict(f'/mnt/cyclenet/CycleNet/checkpoints/models/single_simple_prompt_Both_False_bs4_syn_and_real_data/{ckpt}', location="cpu")
         model.load_state_dict(state)
         model.eval()
         
