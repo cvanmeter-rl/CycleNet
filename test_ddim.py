@@ -90,7 +90,7 @@ def main():
                 for k, v in batch.items():
                     if isinstance(v, torch.Tensor):
                         batch[k] = v.to(device)
-                for s in cfg:
+                for s in steps:
                     logs = model.log_images(batch, split="test", unconditional_guidance_scale=1.0, sample=True, ddim_steps=s)
                     key = 'samples'
                     
