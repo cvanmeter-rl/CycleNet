@@ -49,7 +49,7 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     os.makedirs(OUTDIR, exist_ok=True)
 
-     if args.dataset_type == "synthethic_only":
+    if args.dataset_type == "synthethic_only":
         dataset = TrainDataset()
     elif args.dataset_type == "real_and_synthetic":
         dataset = RealAndSynthethicTrainDataset()
