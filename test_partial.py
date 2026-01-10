@@ -20,22 +20,27 @@ FILENAMES = [
 
 #NUM_IMAGES = 16  # how many images to test on
 BATCH_SIZE = 1
-OUTDIR = "./test_partial/longer_prompt_Both_False_bs4_syn_and_real_data"
+OUTDIR = "./test_partial/longer_prompt_mid_True_syn_and_real_data"
 
 CONFIG_PATH = "./models/cycle_v21.yaml"
 #CKPT_PATH = "./models/cycle_sd21_single_simple_prompt_frozenSD_allControl.ckpt"
+# ckpt_paths = [
+# 'step=004999-v1.ckpt',
+# 'step=009999-v1.ckpt',
+# 'step=014999-v1.ckpt',
+# 'step=019999-v1.ckpt',
+# 'step=024999-v1.ckpt',
+# 'step=029999-v1.ckpt',
+# 'step=034999-v1.ckpt',
+# 'step=039999-v1.ckpt',
+# 'step=044999-v1.ckpt',
+# 'step=049999-v1.ckpt',
+# ]
 ckpt_paths = [
-'step=004999-v1.ckpt',
-'step=009999-v1.ckpt',
-'step=014999-v1.ckpt',
-'step=019999-v1.ckpt',
-'step=024999-v1.ckpt',
-'step=029999-v1.ckpt',
-'step=034999-v1.ckpt',
-'step=039999-v1.ckpt',
-'step=044999-v1.ckpt',
-'step=049999-v1.ckpt',
+'step=004999.ckpt',  'step=009999.ckpt',  'step=014999.ckpt',  'step=019999.ckpt',  'step=024999.ckpt',  'step=029999.ckpt',  'step=034999.ckpt',  'step=039999.ckpt',  'step=044999.ckpt',  'step=049999.ckpt',
+'step=002499.ckpt',  'step=007499.ckpt',  'step=012499.ckpt',  'step=017499.ckpt',  'step=022499.ckpt',  'step=027499.ckpt',  'step=032499.ckpt',  'step=037499.ckpt',  'step=042499.ckpt',  'step=047499.ckpt',
 ]
+
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -82,7 +87,7 @@ def main():
         # Load model
         print(f"Loading model from {CONFIG_PATH} and {ckpt}")
         model = create_model(CONFIG_PATH).to(device)
-        state = load_state_dict(f'/mnt/cyclenet/CycleNet/checkpoints/models/single_simple_prompt_Both_False_bs4_syn_and_real_data/{ckpt}', location="cpu")
+        state = load_state_dict(f'/mnt/cyclenet/CycleNet/checkpoints/models/longer_prompt_mid_True_syn_and_real_data/{ckpt}', location="cpu")
         model.load_state_dict(state)
         model.eval()
         
