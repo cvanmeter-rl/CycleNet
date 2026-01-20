@@ -24,7 +24,7 @@ gpus = 1
 logger_freq = 300
 learning_rate = 1e-5
 sd_locked = False
-only_mid_control = True
+only_mid_control = False
 
 def get_args():
     parser = argparse.ArgumentParser()
