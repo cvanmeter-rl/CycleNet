@@ -20,7 +20,7 @@ FILENAMES = [
 
 #NUM_IMAGES = 16  # how many images to test on
 BATCH_SIZE = 1
-OUTDIR = "./test_partial/longer_prompt_mid_True_syn_and_real_data"
+OUTDIR = "./test_partial/longer_prompt_Both_False_bs4_syn_and_real_data_prec_32"
 
 CONFIG_PATH = "./models/cycle_v21.yaml"
 #CKPT_PATH = "./models/cycle_sd21_single_simple_prompt_frozenSD_allControl.ckpt"
@@ -87,11 +87,11 @@ def main():
         # Load model
         print(f"Loading model from {CONFIG_PATH} and {ckpt}")
         model = create_model(CONFIG_PATH).to(device)
-        state = load_state_dict(f'/mnt/cyclenet/CycleNet/checkpoints/models/longer_prompt_mid_True_syn_and_real_data/{ckpt}', location="cpu")
+        state = load_state_dict(f'/mnt/cyclenet/CycleNet/checkpoints/models/longer_prompt_Both_False_bs4_syn_and_real_data_prec_32/{ckpt}', location="cpu")
         model.load_state_dict(state)
         model.eval()
         
-        cfg = [1.00,1.50,2.00,2.50,3.00,3.50,4.00,4.50,5.00]
+        cfg = [1.00,1.50,2.00]
         with torch.no_grad():
             for idx, batch in enumerate(dataloader):
                 # move tensor fields to device
