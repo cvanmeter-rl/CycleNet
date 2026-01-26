@@ -65,5 +65,5 @@ if __name__ == "__main__":
     monitor=None,
     save_weights_only=True
     )
-    trainer = pl.Trainer(accelerator="gpu", devices=gpus, precision=32, callbacks=[checkpoint_cb], default_root_dir=log_path,max_steps=50000)
+    trainer = pl.Trainer(accelerator="gpu", devices=gpus, precision=32, callbacks=[checkpoint_cb], default_root_dir=log_path,max_steps=12500)
     trainer.fit(model, dataloader)
