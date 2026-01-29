@@ -37,8 +37,8 @@ CONFIG_PATH = "./models/cycle_v21.yaml"
 # 'step=049999-v1.ckpt',
 # ]
 ckpt_paths = [
-'step=004999.ckpt',  'step=009999.ckpt',  'step=014999.ckpt',  'step=019999.ckpt',  'step=024999.ckpt',  'step=029999.ckpt',  'step=034999.ckpt',  'step=039999.ckpt',  'step=044999.ckpt',  'step=049999.ckpt',
-'step=002499.ckpt',  'step=007499.ckpt',  'step=012499.ckpt',  'step=017499.ckpt',  'step=022499.ckpt',  'step=027499.ckpt',  'step=032499.ckpt',  'step=037499.ckpt',  'step=042499.ckpt',  'step=047499.ckpt',
+'step=004999.ckpt',  'step=009999.ckpt',  'step=014999.ckpt',  'step=019999.ckpt',  'step=024999.ckpt',  'step=029999.ckpt',  'step=034999.ckpt',  #'step=039999.ckpt',  'step=044999.ckpt',  'step=049999.ckpt',
+'step=002499.ckpt',  'step=007499.ckpt',  'step=012499.ckpt',  'step=017499.ckpt',  'step=022499.ckpt',  'step=027499.ckpt',  'step=032499.ckpt',  'step=037499.ckpt',  #'step=042499.ckpt',  'step=047499.ckpt',
 ]
 
 
